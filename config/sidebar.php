@@ -62,6 +62,11 @@ return [
             'title' => 'Stok Barang'
         ]]
 	],[
+		'icon' => 'fa fa-users',
+		'title' => 'Pengguna',
+		'url' => '/pengguna',
+		'id' => 'pengguna'
+	],[
 		'icon' => 'fa fa-calculator',
 		'title' => 'Penjualan',
 		'url' => '/penjualan',

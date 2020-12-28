@@ -1,4 +1,4 @@
-@extends('pages.barangmasuk.main')
+@extends('pages.main')
 
 @section('title', ' | Barang Masuk')
 

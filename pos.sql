@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 28/12/2020 15:25:48
+ Date: 28/12/2020 15:34:53
 */
 
 SET NAMES utf8mb4;
@@ -729,28 +729,24 @@ CREATE TABLE `permissions`  (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `permissions_name_unique`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permissions
 -- ----------------------------
-INSERT INTO `permissions` VALUES (1, 'dashboard', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (2, 'barangmasuk', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (3, 'datamaster', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (4, 'barang', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (5, 'jenisbarang', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (6, 'pelanggan', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (7, 'supplier', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (8, 'laporan', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (9, 'konsinyasi', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (10, 'laporankonsinyasiperhari', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (11, 'laporankonsinyasibulanan', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (12, 'penerimaan', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (13, 'laporanpenerimaanperhari', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (14, 'laporanpenerimaanbulanan', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (15, 'laporanstokbarang', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (16, 'penjualan', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
-INSERT INTO `permissions` VALUES (17, 'postingstok', 'web', '2020-12-28 11:29:48', '2020-12-28 11:29:48');
+INSERT INTO `permissions` VALUES (1, 'dashboard', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (2, 'barangmasuk', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (3, 'datamaster', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (4, 'barang', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (5, 'jenisbarang', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (6, 'pelanggan', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (7, 'supplier', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (8, 'laporan', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (9, 'laporanpenjualan', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (10, 'laporanstokbarang', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (11, 'pengguna', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (12, 'penjualan', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
+INSERT INTO `permissions` VALUES (13, 'postingstok', 'web', '2020-12-28 15:34:33', '2020-12-28 15:34:33');
 
 -- ----------------------------
 -- Table structure for role_has_permissions

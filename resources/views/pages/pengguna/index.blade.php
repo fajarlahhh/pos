@@ -1,4 +1,4 @@
-@extends('pages.setup.main')
+@extends('pages.main')
 
 @section('title', ' | Pengguna')
 

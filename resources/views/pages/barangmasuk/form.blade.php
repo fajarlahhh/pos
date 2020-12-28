@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.main')
 
 @section('title', ' | Tambah Barang Masuk')
 

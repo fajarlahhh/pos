@@ -38,7 +38,7 @@ class PenggunaController extends Controller
 
         $data = $data->paginate(10);
         $data->appends([$req->cari, $req->tipe]);
-        return view('pages.setup.pengguna.index', [
+        return view('pages.pengguna.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari,
@@ -116,7 +116,7 @@ class PenggunaController extends Controller
                             <label for='".$row['id']."'>".$row['title']."</label>".$subMenu."</div>";
             }
         }
-        return view('pages.setup.pengguna.form', [
+        return view('pages.pengguna.form', [
             'level' => Role::all(),
             'back' => Str::contains(url()->previous(), ['pengguna/tambah', 'pengguna/edit'])? '/pengguna': url()->previous(),
             'menu' => $menu,
@@ -197,7 +197,7 @@ class PenggunaController extends Controller
                             <label for='".$row['id']."'>".$row['title']."</label>".$subMenu."</div>";
             }
         }
-        return view('pages.setup.pengguna.form', [
+        return view('pages.pengguna.form', [
             'data' => $data,
             'level' => Role::all(),
             'back' => Str::contains(url()->previous(), 'pengguna/edit')? '/pengguna': url()->previous(),
