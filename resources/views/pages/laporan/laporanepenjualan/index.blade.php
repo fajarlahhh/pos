@@ -60,8 +60,10 @@
     <div class="panel-body table-responsive">
 @else
     <div class="text-center">
-        <h3>POS App <br>
-        <small>LAPORAN PENJUALAN PER {{ strtoupper(date('M Y', strtotime($tahun."-".$bulan))) }} (
+        <h3>UD LOMBOK FROZEN<br>
+            <small>Jl. Barcelona V 214 Graha Royal Gunung Sari<br>
+            Telp. 085337755533</small></h3>
+        LAPORAN PENJUALAN PER {{ strtoupper(date('M Y', strtotime($tahun."-".$bulan))) }} (
             @switch($pembayaran)
             @case(0)
                 Semua Pembayaran
@@ -74,7 +76,7 @@
                 @break
             @default
 
-        @endswitch )</small></h3>
+        @endswitch )
     </div>
     <br>
 @endif

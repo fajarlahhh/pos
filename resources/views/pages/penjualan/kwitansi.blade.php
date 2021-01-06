@@ -2,7 +2,17 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-	@include('includes.head')
+    <meta charset="utf-8" />
+<title>{{ config("app.name") }} @yield('title')</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+<link rel="icon" href="/assets/img/logo/favicon.png" type="image/gif">
+<meta content="{{ config("app.name")." ".env('APP_COMPANY') }}" name="description" />
+<meta content="Andi Fajar Nugraha" name="author" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
+    <link href="/assets/css/default/app.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/dotmatri/dotmatri.ttf">
 </head>
 @php
 	$bodyClass = (!empty($boxedLayout)) ? 'boxed-layout ' : '';
@@ -10,9 +20,11 @@
 @endphp
 <body>
 @endif
-<div class="modal-body">
+<div class="modal-body" style="font-family: 'Verdana' !important">
     <div class="text-center">
-        <h2>POS App</h2>
+        <h2>UD LOMBOK FROZEN<br>
+            <small>Jl. Barcelona V 214 Graha Royal Gunung Sari<br>
+            Telp. 085337755533</small></h2>
     </div>
     <br>
     <br>

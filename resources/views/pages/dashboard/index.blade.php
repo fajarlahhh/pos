@@ -76,7 +76,7 @@
                     <h4 class="widget-todolist-header-title f-s-16">Barang Kadaluarsa</h4>
                 </div>
                 <div class="widget-todolist-header-right">
-                    <div class="widget-todolist-header-total"><span>{{ $barang_masuk->count() }}</span><small>Barang</small></div>
+                    <div class="widget-todolist-header-total"><span>{{ $kadaluarsa->count() }}</span><small>Barang</small></div>
                 </div>
             </div>
             <div class="widget-todolist-body overflow-auto height-300">

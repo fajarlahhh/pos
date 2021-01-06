@@ -180,7 +180,7 @@
         var harga = parseFloat($("#harga" + id).val().split(',').join('') || 0);
         var diskon = parseFloat($("#diskon" + id).val().split(',').join('') || 0);
 
-        AutoNumeric.getAutoNumericElement('#total' + id).set((harga - (harga * diskon/100)) * (qty? qty: 0));
+        AutoNumeric.getAutoNumericElement('#total' + id).set((harga - diskon) * (qty? qty: 0));
         sub_total();
     }
 
@@ -234,6 +234,11 @@
                 });
 
                 new AutoNumeric('#total' + i, {
+                    modifyValueOnWheel : false,
+                    minimumValue: "0"
+                });
+
+                new AutoNumeric('.currency' + i++, {
                     modifyValueOnWheel : false,
                     minimumValue: "0"
                 });
