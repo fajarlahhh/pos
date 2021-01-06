@@ -17,7 +17,7 @@ class BarangMasukDetail extends Model
 
     public function barang()
     {
-        return $this->belongsTo('App\Models\Barang', 'barang_id', 'barang_id');
+        return $this->belongsTo('App\Models\Barang', 'barang_id', 'barang_id')->withTrashed();
     }
 
     public function barang_masuk()

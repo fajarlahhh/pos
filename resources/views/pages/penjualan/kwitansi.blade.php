@@ -61,6 +61,6 @@
 @if ($cetak == 0)
 <div class="modal-footer">
     <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-    <a href="/penjualanbebas/kwitansi/1/{{ $data->penjualan_id }}" class="btn btn-success" target="_blank"><i class="fas fa-print"></i> Cetak</a>
+    <a href="/penjualan/kwitansi/1/{{ $data->penjualan_id }}" class="btn btn-success" target="_blank"><i class="fas fa-print"></i> Cetak</a>
 </div>
 @endif

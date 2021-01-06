@@ -31,7 +31,7 @@
         <div class="panel-body">
             <div class="form-group">
                 <label class="control-label">Tanggal Masuk</label>
-                <input type="text" readonly class="form-control date" id="barang_masuk_tanggal" name="barang_masuk_tanggal" value="{{ date('d M Y', strtotime(old('barang_masuk_tanggal', now()))) }}" required/>
+                <input type="text" readonly class="form-control datepicker" id="barang_masuk_tanggal" name="barang_masuk_tanggal" value="{{ date('d M Y', strtotime(old('barang_masuk_tanggal', now()))) }}" required/>
             </div>
             <div class="form-group">
                 <label class="control-label">No. Faktur</label>
