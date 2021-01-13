@@ -18,9 +18,9 @@
 	$bodyClass = (!empty($boxedLayout)) ? 'boxed-layout ' : '';
 	$bodyClass .= (!empty($bodyExtraClass)) ? $bodyExtraClass . ' ' : '';
 @endphp
-<body>
+<body style="background: white">
 @endif
-<div class="modal-body" style="font-family: 'Verdana' !important">
+<div class="modal-body" style="font-family: Arial, sans-serif !important; font-size: 22px">
     <div class="text-center">
         <h2>UD LOMBOK FROZEN<br>
             <small>Jl. Barcelona V 214 Graha Royal Gunung Sari<br>

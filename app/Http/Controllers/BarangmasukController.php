@@ -23,7 +23,7 @@ class BarangmasukController extends Controller
 		$tgl2 = $req->get('tanggal')? date('Y-m-d', strtotime($tanggal[1])): date('Y-m-d');
 
         $data = BarangMasuk::with('pengguna')->with('detail.barang')->where(function($q) use ($req){
-            $q->where('barang_masuk_keterangan', 'like', '%'.$req->cari.'%')->orWhere('barang_masuk_sales', 'like', '%'.$req->cari.'%')->orWhere('barang_masuk_keterangan', 'like', '%'.$req->cari.'%')->orWhereHas('supplier', function($q) use ($req){
+            $q->where('barang_masuk_faktur', 'like', '%'.$req->cari.'%')->orWhere('barang_masuk_sales', 'like', '%'.$req->cari.'%')->orWhere('barang_masuk_keterangan', 'like', '%'.$req->cari.'%')->orWhereHas('supplier', function($q) use ($req){
                 $q->where('supplier_nama', 'like', '%'.$req->cari.'%');
             });
         })->whereBetween('barang_masuk_tanggal', [$tgl1, $tgl2])->orderBy('created_at', 'desc');
