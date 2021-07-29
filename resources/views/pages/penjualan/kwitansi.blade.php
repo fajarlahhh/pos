@@ -33,30 +33,30 @@
         <div class="float-right">Tgl. Nota : {{ $data->penjualan_tanggal }}</div>
         <table class="table">
             <tr>
-                <th class="width-70">No.</th>
-                <th>Barang</th>
-                <th class="width-70">Qty</th>
-                <th class="width-150">Harga</th>
+                <th class="width-70 p-0">No.</th>
+                <th class="p-0">Barang</th>
+                <th class="width-70 p-0">Qty</th>
+                <th class="width-150 p-0">Harga</th>
             </tr>
             @foreach ($data->detail as $index => $row)
             <tr>
-                <td>
+                <td class="p-0">
                     {{ ++$index }}
                 </td>
-                <td>
+                <td class="p-0">
                     {{ $row->barang->barang_nama }}
                 </td>
-                <td>
+                <td class="p-0">
                     {{ number_format($row->penjualan_detail_qty) }}
                 </td>
-                <td class="text-right">
+                <td class="text-right p-0">
                     {{ number_format($row->penjualan_detail_total, 2) }}
                 </td>
             </tr>
             @endforeach
             <tr>
-                <th colspan="3" class="text-right">Total :</th>
-                <td class="text-right">
+                <th colspan="3" class="text-right p-0">Total :</th>
+                <td class="text-right p-0" >
                     {{ number_format($data->detail->sum('penjualan_detail_total'), 2) }}
                 </th>
             </tr>
