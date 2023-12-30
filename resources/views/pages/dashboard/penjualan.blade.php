@@ -11,17 +11,17 @@
         </tr>
         @foreach ($data as $index => $row)
         <tr>
-            <td class=" text-nowrap">{{ $row->barang->barang_nama }}</td>
-            <td class=" text-nowrap">{{ $row->satuan_nama }}</td>
-            <td class="text-right  text-nowrap">{{ number_format($row->satuan_harga, 2) }}</td>
-            <td class="text-right ">{{ number_format($row->penjualan_detail_qty) }}</td>
-            <td class="text-right ">{{ number_format($row->penjualan_detail_diskon) }} %</td>
-            <td class="text-right">{{ number_format($row->penjualan_detail_total, 2) }}</td>
+            <td class=" text-nowrap">{{ $row->barang->nama }}</td>
+            <td class=" text-nowrap">{{ $row->nama }}</td>
+            <td class="text-right  text-nowrap">{{ number_format($row->harga, 2) }}</td>
+            <td class="text-right ">{{ number_format($row->qty) }}</td>
+            <td class="text-right ">{{ number_format($row->diskon) }} %</td>
+            <td class="text-right">{{ number_format($row->total, 2) }}</td>
         </tr>
         @endforeach
         <tr>
             <th colspan="5" class="text-center">SUB TOTAL</th>
-            <th class="text-right">{{ number_format($data->sum('penjualan_detail_total'), 2) }}</th>
+            <th class="text-right">{{ number_format($data->sum('total'), 2) }}</th>
         </tr>
     </table>
     @else

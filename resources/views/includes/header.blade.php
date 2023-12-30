@@ -24,7 +24,7 @@
 		<li class="dropdown navbar-user">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				<img src="/assets/img/user/user.png" alt="" />
-				<span class="d-none d-md-inline">{{ auth()->user()->pengguna_nama }} <b class="caret"></b>
+				<span class="d-none d-md-inline">{{ auth()->user()->nama }} <b class="caret"></b>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
 				<a href="#modal-katasandi" id="btn-password" class="dropdown-item" data-toggle="modal">Ganti Kata Sandi</a>

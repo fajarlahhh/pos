@@ -14,7 +14,7 @@ class PelangganController extends Controller
         $tipe = $req->tipe? $req->tipe: 0;
 
         $data = Pelanggan::with('pengguna')->where(function($q) use ($req){
-            $q->where('pelanggan_nama', 'like', '%'.$req->cari.'%')->orWhere('pelanggan_alamat', 'like', '%'.$req->cari.'%');
+            $q->where('nama', 'like', '%'.$req->cari.'%')->orWhere('alamat', 'like', '%'.$req->cari.'%');
         });
 
         switch ($tipe) {
@@ -47,24 +47,24 @@ class PelangganController extends Controller
 	public function simpan(Request $req)
 	{
         $req->validate([
-            'pelanggan_nama' => 'required',
-            'pelanggan_alamat' => 'required',
-            'pelanggan_kontak' => 'required'
+            'nama' => 'required',
+            'alamat' => 'required',
+            'kontak' => 'required'
         ]);
 
         try{
             if ($req->get('id')) {
                 $data = Pelanggan::findOrFail($req->get('id'));
-                $data->pelanggan_nama = $req->get('pelanggan_nama');
-                $data->pelanggan_alamat = $req->get('pelanggan_alamat');
-                $data->pelanggan_kontak = $req->get('pelanggan_kontak');
+                $data->nama = $req->get('nama');
+                $data->alamat = $req->get('alamat');
+                $data->kontak = $req->get('kontak');
                 $data->save();
                 toast('Berhasil mengedit data', 'success')->autoClose(2000);
             }else{
                 $data = new Pelanggan();
-                $data->pelanggan_nama = $req->get('pelanggan_nama');
-                $data->pelanggan_alamat = $req->get('pelanggan_alamat');
-                $data->pelanggan_kontak = $req->get('pelanggan_kontak');
+                $data->nama = $req->get('nama');
+                $data->alamat = $req->get('alamat');
+                $data->kontak = $req->get('kontak');
                 $data->save();
 
                 toast('Berhasil menambah data', 'success')->autoClose(2000);

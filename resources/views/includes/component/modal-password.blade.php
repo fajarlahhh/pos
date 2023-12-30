@@ -10,11 +10,11 @@
 		<div class="modal-body">
 			<div class="form-group">
 				<label class="control-label">Kata Sandi Lama</label>
-				<input data-toggle="password" class="form-control" type="password" name="pengguna_sandi_lama" data-parsley-minlength="5" required />
+				<input data-toggle="password" class="form-control" type="password" name="sandi_lama" data-parsley-minlength="5" required />
 			</div>
 			<div class="form-group">
 				<label class="control-label">Kata Sandi Baru</label>
-				<input data-toggle="password" class="form-control" type="password" name="pengguna_sandi_baru" data-parsley-minlength="5" required />
+				<input data-toggle="password" class="form-control" type="password" name="sandi_baru" data-parsley-minlength="5" required />
 			</div>
 		</div>
 		<div class="modal-footer">

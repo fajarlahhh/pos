@@ -29,11 +29,11 @@
                 @foreach ($barang_masuk as $row)
                 <div class="widget-todolist-item">
                     <div class="widget-todolist-content">
-                        <h4 class="widget-todolist-title">{{ \Carbon\Carbon::parse($row->barang_masuk_tanggal)->isoFormat('LL') }}</h4>
-                        <p class="widget-todolist-desc">{{ $row->barang_masuk_faktur." - ".($row->supplier? $row->supplier->supplier_nama:'') }}</p>
+                        <h4 class="widget-todolist-title">{{ \Carbon\Carbon::parse($row->tanggal)->isoFormat('LL') }}</h4>
+                        <p class="widget-todolist-desc">{{ $row->faktur." - ".($row->supplier? $row->supplier->nama:'') }}</p>
                     </div>
                     <div class="widget-todolist-icon">
-                        <a href="#" class="btn-barang-masuk" data-id="{{ $row->barang_masuk_id }}" data-faktur="{{ $row->barang_masuk_faktur." - ".($row->supplier? $row->supplier->supplier_nama:'') }}"><span class="badge badge-warning">Detail</span> </a>
+                        <a href="#" class="btn-barang-masuk" data-id="{{ $row->barang_masuk_id }}" data-faktur="{{ $row->faktur." - ".($row->supplier? $row->supplier->nama:'') }}"><span class="badge badge-warning">Detail</span> </a>
                     </div>
                 </div>
                 @endforeach
@@ -56,11 +56,11 @@
                 @foreach ($penjualan as $row)
                 <div class="widget-todolist-item">
                     <div class="widget-todolist-content">
-                        <h4 class="widget-todolist-title">{{ \Carbon\Carbon::parse($row->penjualan_tanggal)->isoFormat('LL') }}</h4>
-                        <p class="widget-todolist-desc">{{ $row->penjualan_id." - ".($row->pelanggan? $row->pelanggan->pelanggan_nama:'') }}</p>
+                        <h4 class="widget-todolist-title">{{ \Carbon\Carbon::parse($row->tanggal)->isoFormat('LL') }}</h4>
+                        <p class="widget-todolist-desc">{{ $row->penjualan_id." - ".($row->pelanggan? $row->pelanggan->nama:'') }}</p>
                     </div>
                     <div class="widget-todolist-icon">
-                        <a href="#" class="btn-penjualan" data-id="{{ $row->penjualan_id }}" data-faktur="{{ $row->penjualan_id ." - ".($row->pelanggan? $row->pelanggan->pelanggan_nama:'') }}"><span class="badge badge-warning">Detail</span> </a>
+                        <a href="#" class="btn-penjualan" data-id="{{ $row->penjualan_id }}" data-faktur="{{ $row->penjualan_id ." - ".($row->pelanggan? $row->pelanggan->nama:'') }}"><span class="badge badge-warning">Detail</span> </a>
                     </div>
                 </div>
                 @endforeach
@@ -83,11 +83,11 @@
                 @foreach ($kadaluarsa as $row)
                 <div class="widget-todolist-item">
                     <div class="widget-todolist-content">
-                        <h4 class="widget-todolist-title">{{ $row->barang_masuk_kadaluarsa }}</h4>
-                        <p class="widget-todolist-desc">{{ $row->barang->barang_nama." (".$row->barang_masuk_qty." ".$row->barang->satuan_utama->satuan_nama.")" }}</p>
+                        <h4 class="widget-todolist-title">{{ $row->kadaluarsa }}</h4>
+                        <p class="widget-todolist-desc">{{ $row->barang->nama." (".$row->qty." ".$row->barang->satuan_utama->nama.")" }}</p>
                     </div>
                     <div class="widget-todolist-icon">
-                        <a href="javascript:;" class="btn btn-sm btn-danger btn-ok" data-nama="{{ $row->barang->barang_nama }}" data-tanggal="{{ $row->barang_masuk_kadaluarsa }}" data-barang="{{ $row->barang_id }}" data-id="{{ $row->barang_masuk_id }}"/>OK</a>
+                        <a href="javascript:;" class="btn btn-sm btn-danger btn-ok" data-nama="{{ $row->barang->nama }}" data-tanggal="{{ $row->kadaluarsa }}" data-barang="{{ $row->barang_id }}" data-id="{{ $row->barang_masuk_id }}"/>OK</a>
                     </div>
                 </div>
                 @endforeach

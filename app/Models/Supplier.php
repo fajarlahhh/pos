@@ -15,11 +15,10 @@ class Supplier extends Model
     use Pengguna;
     //
     protected $table = 'supplier';
-    protected $primaryKey = 'supplier_id';
 
     public function pengguna()
     {
-        return $this->belongsTo('App\Models\Pengguna', 'pengguna_id', 'pengguna_id');
+        return $this->belongsTo(Pengguna::class);
     }
 
     public function getCreatedAtAttribute($value)

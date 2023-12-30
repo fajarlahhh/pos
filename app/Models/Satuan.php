@@ -10,8 +10,5 @@ class Satuan extends Model
     use HasFactory;
 
     protected $table = 'satuan';
-    protected $primaryKey = null;
-    public $incrementing = false;
-    public $timestamps = false;
 
 }

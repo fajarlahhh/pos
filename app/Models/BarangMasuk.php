@@ -15,21 +15,20 @@ class BarangMasuk extends Model
     use SoftDeletes;
     //
     protected $table = 'barang_masuk';
-    protected $primaryKey = 'barang_masuk_id';
 
     public function pengguna()
     {
-        return $this->belongsTo('App\Models\Pengguna', 'pengguna_id', 'pengguna_id');
+        return $this->belongsTo(Pengguna::class);
     }
 
     public function detail()
     {
-        return $this->hasMany('App\Models\BarangMasukDetail', 'barang_masuk_id', 'barang_masuk_id');
+        return $this->hasMany(BarangMasukDetail::class);
     }
 
     public function supplier()
     {
-        return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'supplier_id');
+        return $this->belongsTo(Supplier::class);
     }
 
     public function getCreatedAtAttribute($value)

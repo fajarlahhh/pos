@@ -67,7 +67,7 @@
                     <tr>
                         <td>{{ ++$i }}</td>
                         <td>{{ $row->pengguna_id }}</td>
-                        <td class="text-nowrap">{{ $row->pengguna_nama }}</td>
+                        <td class="text-nowrap">{{ $row->nama }}</td>
                         <td>{{ ucFirst($row->getRoleNames()[0]) }}</td>
                         @role('super-admin|user')
                         <td class="with-btn-group align-middle" nowrap>

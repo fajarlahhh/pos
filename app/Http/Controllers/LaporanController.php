@@ -19,16 +19,16 @@ class LaporanController extends Controller
         $tahun = $req->tahun?:date('Y');
 
         $data = Barang::with('satuan_utama')->with('jenis_barang')->with(['stok_awal' => function($q) use ($bulan, $tahun){
-            $q->select('barang_id', 'barang_qty')->whereRaw(DB::raw("year(stok_awal_tanggal)=$tahun"))->whereRaw(DB::raw("month(stok_awal_tanggal)=$bulan"));
+            $q->select('barang_id', 'qty')->whereRaw(DB::raw("year(awal_tanggal)=$tahun"))->whereRaw(DB::raw("month(awal_tanggal)=$bulan"));
         }])->with(['barang_masuk' => function($q) use ($bulan, $tahun){
-            $q->select('barang_id', DB::raw("sum(barang_masuk_qty) masuk"))->whereHas('barang_masuk', function($r) use ($bulan, $tahun){
-                return $r->whereRaw(DB::raw("month(barang_masuk_tanggal)=$bulan and year(barang_masuk_tanggal)=$tahun"));
+            $q->select('barang_id', DB::raw("sum(qty) masuk"))->whereHas('barang_masuk', function($r) use ($bulan, $tahun){
+                return $r->whereRaw(DB::raw("month(tanggal)=$bulan and year(tanggal)=$tahun"));
             })->groupBy('barang_id');
         }])->with(['penjualan' => function($q) use ($bulan, $tahun){
-            $q->select('barang_id', 'penjualan_id', DB::raw("sum(penjualan_detail_qty/satuan_rasio_dari_utama) keluar"))->whereHas('penjualan', function($r) use ($bulan, $tahun){
-                $r->whereRaw(DB::raw("year(penjualan_tanggal)=$tahun"))->whereRaw(DB::raw("month(penjualan_tanggal)=$bulan"));
+            $q->select('barang_id', 'penjualan_id', DB::raw("sum(qty/rasio_dari_utama) keluar"))->whereHas('penjualan', function($r) use ($bulan, $tahun){
+                $r->whereRaw(DB::raw("year(tanggal)=$tahun"))->whereRaw(DB::raw("month(tanggal)=$bulan"));
             })->groupBy('barang_id', 'penjualan_id');
-        }])->whereNull('supplier_id')->orderBy('barang_nama')->get();
+        }])->whereNull('supplier_id')->orderBy('nama')->get();
         return view('pages.laporan.laporanstokbarang.index', [
             'data' => $data,
             'cetak' => $cetak,
@@ -43,14 +43,14 @@ class LaporanController extends Controller
         $tahun = $req->tahun?:date('Y');
         $pembayaran = $req->pembayaran? $req->pembayaran: 0;
 
-        $data = Penjualan::with('detail.barang')->whereRaw(DB::raw("year(penjualan_tanggal)=$tahun"))->whereRaw(DB::raw("month(penjualan_tanggal)=$bulan"));
+        $data = Penjualan::with('detail.barang')->whereRaw(DB::raw("year(tanggal)=$tahun"))->whereRaw(DB::raw("month(tanggal)=$bulan"));
 
         switch ($pembayaran) {
             case '1':
-                $data = $data->whereNull('penjualan_lunas');
+                $data = $data->whereNull('lunas');
                 break;
             case '2':
-                $data = $data->whereNotNull('penjualan_lunas');
+                $data = $data->whereNotNull('lunas');
                 break;
         }
 
@@ -71,20 +71,20 @@ class LaporanController extends Controller
 
         $data = PenjualanDetail::with('barang')->whereHas('penjualan', function ($q) use ($tanggal)
         {
-            return $q->where('penjualan_tanggal', $tanggal);
+            return $q->where('tanggal', $tanggal);
         });
 
         switch ($pembayaran) {
             case '1':
                 $data = $data->whereHas('penjualan', function ($q) use ($tanggal)
                 {
-                    return $q->whereNull('penjualan_lunas');
+                    return $q->whereNull('lunas');
                 });
                 break;
             case '2':
                 $data = $data->whereHas('penjualan', function ($q) use ($tanggal)
                 {
-                    return $q->whereNotNull('penjualan_lunas');
+                    return $q->whereNotNull('lunas');
                 });
                 break;
         }

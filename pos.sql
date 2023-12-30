@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `barang` (
   `barang_id` bigint(20) NOT NULL,
-  `barang_nama` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `barang_stok_min` double NOT NULL DEFAULT 0,
-  `barang_keterangan` text CHARACTER SET latin1 DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `stok_min` double NOT NULL DEFAULT 0,
+  `keterangan` text CHARACTER SET latin1 DEFAULT NULL,
   `stok` tinyint(4) NOT NULL DEFAULT 1,
   `jenis_barang_id` bigint(20) DEFAULT NULL,
   `supplier_id` bigint(20) DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `barang` (
 -- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`barang_id`, `barang_nama`, `barang_stok_min`, `barang_keterangan`, `stok`, `jenis_barang_id`, `supplier_id`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `barang` (`barang_id`, `nama`, `stok_min`, `keterangan`, `stok`, `jenis_barang_id`, `supplier_id`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (222, 'mozarella olden burger 1 kg', 0, NULL, 1, NULL, NULL, 'administrator', '2020-12-29 10:57:36', '2020-12-30 04:30:13', '2020-12-30 04:30:13'),
 (223, 'sosis yona 1 kg', 0, NULL, 1, NULL, NULL, 'administrator', '2020-12-29 11:24:38', '2020-12-30 04:30:19', '2020-12-30 04:30:19'),
 (224, 'DAGING SLICE', 0, NULL, 1, NULL, NULL, 'administrator', '2020-12-29 11:42:03', '2020-12-30 04:30:06', '2020-12-30 04:30:06'),
@@ -91,12 +91,12 @@ INSERT INTO `barang` (`barang_id`, `barang_nama`, `barang_stok_min`, `barang_ket
 
 CREATE TABLE `barang_masuk` (
   `barang_masuk_id` bigint(255) NOT NULL,
-  `barang_masuk_tanggal` varchar(255) DEFAULT NULL,
-  `barang_masuk_faktur` varchar(255) DEFAULT NULL,
-  `barang_masuk_sales` varchar(255) DEFAULT NULL,
-  `barang_masuk_keterangan` text DEFAULT NULL,
-  `barang_masuk_jatuh_tempo` date DEFAULT NULL,
-  `barang_masuk_lunas` date DEFAULT NULL,
+  `tanggal` varchar(255) DEFAULT NULL,
+  `faktur` varchar(255) DEFAULT NULL,
+  `sales` varchar(255) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `jatuh_tempo` date DEFAULT NULL,
+  `lunas` date DEFAULT NULL,
   `supplier_id` bigint(20) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE `barang_masuk` (
 -- Dumping data for table `barang_masuk`
 --
 
-INSERT INTO `barang_masuk` (`barang_masuk_id`, `barang_masuk_tanggal`, `barang_masuk_faktur`, `barang_masuk_sales`, `barang_masuk_keterangan`, `barang_masuk_jatuh_tempo`, `barang_masuk_lunas`, `supplier_id`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `barang_masuk` (`barang_masuk_id`, `tanggal`, `faktur`, `sales`, `keterangan`, `jatuh_tempo`, `lunas`, `supplier_id`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (7, '2020-12-24', '00/27', 'jayadi', NULL, NULL, '2020-12-29', 62, 'administrator', '2020-12-29 11:11:35', '2020-12-29 12:14:18', '2020-12-29 12:14:18'),
 (8, '2020-12-29', '000', 'ULFA', NULL, '2020-12-31', '2020-12-29', 63, 'administrator', '2020-12-29 11:30:59', '2020-12-29 12:14:21', '2020-12-29 12:14:21'),
 (9, '2020-12-28', '-', NULL, NULL, '2020-12-31', NULL, 62, 'administrator', '2020-12-29 11:47:06', '2020-12-29 11:47:25', '2020-12-29 11:47:25'),
@@ -132,14 +132,14 @@ INSERT INTO `barang_masuk` (`barang_masuk_id`, `barang_masuk_tanggal`, `barang_m
 CREATE TABLE `barang_masuk_detail` (
   `barang_masuk_id` bigint(20) NOT NULL,
   `barang_id` bigint(20) DEFAULT NULL,
-  `barang_masuk_nomor_batch` varchar(255) DEFAULT NULL,
-  `barang_masuk_harga_barang` decimal(15,0) DEFAULT NULL,
-  `barang_masuk_harga_ppn` decimal(15,0) DEFAULT NULL,
-  `barang_masuk_diskon` decimal(15,0) DEFAULT NULL,
-  `barang_masuk_qty` double DEFAULT NULL,
-  `barang_masuk_kadaluarsa` date DEFAULT NULL,
-  `barang_masuk_sub_total_ppn` double DEFAULT NULL,
-  `barang_masuk_sub_total` decimal(15,2) DEFAULT NULL,
+  `nomor_batch` varchar(255) DEFAULT NULL,
+  `harga_barang` decimal(15,0) DEFAULT NULL,
+  `harga_pph` decimal(15,0) DEFAULT NULL,
+  `diskon` decimal(15,0) DEFAULT NULL,
+  `qty` double DEFAULT NULL,
+  `kadaluarsa` date DEFAULT NULL,
+  `sub_total_ppn` double DEFAULT NULL,
+  `sub_total` decimal(15,2) DEFAULT NULL,
   `check` tinyint(255) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
@@ -147,7 +147,7 @@ CREATE TABLE `barang_masuk_detail` (
 -- Dumping data for table `barang_masuk_detail`
 --
 
-INSERT INTO `barang_masuk_detail` (`barang_masuk_id`, `barang_id`, `barang_masuk_nomor_batch`, `barang_masuk_harga_barang`, `barang_masuk_harga_ppn`, `barang_masuk_diskon`, `barang_masuk_qty`, `barang_masuk_kadaluarsa`, `barang_masuk_sub_total_ppn`, `barang_masuk_sub_total`, `check`) VALUES
+INSERT INTO `barang_masuk_detail` (`barang_masuk_id`, `barang_id`, `nomor_batch`, `harga_barang`, `harga_pph`, `diskon`, `qty`, `kadaluarsa`, `sub_total_ppn`, `sub_total`, `check`) VALUES
 (7, 222, NULL, '936000', '0', '0', 35, '2020-12-29', 0, '32760000.00', 1),
 (8, 223, NULL, '60000', '0', '0', 64, '2020-12-29', 0, '3840000.00', 1),
 (9, 224, NULL, '25000', '0', '0', 25, '2020-12-29', 0, '625000.00', 1),
@@ -286,9 +286,9 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `pelanggan` (
   `pelanggan_id` bigint(20) NOT NULL,
-  `pelanggan_nama` varchar(255) DEFAULT NULL,
-  `pelanggan_alamat` text DEFAULT NULL,
-  `pelanggan_kontak` varchar(255) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `kontak` varchar(255) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -299,7 +299,7 @@ CREATE TABLE `pelanggan` (
 -- Dumping data for table `pelanggan`
 --
 
-INSERT INTO `pelanggan` (`pelanggan_id`, `pelanggan_nama`, `pelanggan_alamat`, `pelanggan_kontak`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `pelanggan` (`pelanggan_id`, `nama`, `alamat`, `kontak`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (62, 'ANGGUN DOMPU', 'Samping Kantor Lurah Karijawa Dompu', '081239888826', 'administrator', '2020-12-29 11:51:09', '2020-12-31 05:09:49', NULL),
 (63, 'ANNISA', 'Kebayan Sumbawa Besar', '082340725981', 'administrator', '2020-12-31 05:12:52', '2020-12-31 05:12:52', NULL),
 (64, 'HAIFA SOSIS AMPENAN', 'JL. SALEH SUNGKAR AMPENAN', 'AINI', 'administrator', '2021-01-04 15:11:43', '2021-01-04 15:11:43', NULL);
@@ -312,8 +312,8 @@ INSERT INTO `pelanggan` (`pelanggan_id`, `pelanggan_nama`, `pelanggan_alamat`, `
 
 CREATE TABLE `pengguna` (
   `pengguna_id` varchar(255) NOT NULL,
-  `pengguna_sandi` varchar(255) NOT NULL,
-  `pengguna_nama` varchar(255) DEFAULT NULL,
+  `sandi` varchar(255) NOT NULL,
+  `nama` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -324,7 +324,7 @@ CREATE TABLE `pengguna` (
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`pengguna_id`, `pengguna_sandi`, `pengguna_nama`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `pengguna` (`pengguna_id`, `sandi`, `nama`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 ('administrator', '$2y$10$8D1JqX6wwuCZuKMRYaIw3O2adcJyxEKxCsiA73cv3ASeyxxD2xbXa', 'Administrator', NULL, NULL, '2020-10-22 06:31:28', NULL),
 ('kasir', '$2y$10$ZSQZX3VdiZJw.hhJqmGnCufUzzndevyRSCscbqCDgDq5kSmSELTvS', 'kasir', NULL, '2020-12-29 11:58:17', '2020-12-29 11:59:15', NULL);
 
@@ -336,13 +336,13 @@ INSERT INTO `pengguna` (`pengguna_id`, `pengguna_sandi`, `pengguna_nama`, `remem
 
 CREATE TABLE `penjualan` (
   `penjualan_id` varchar(255) NOT NULL DEFAULT '',
-  `penjualan_tanggal` date DEFAULT NULL,
-  `penjualan_keterangan` varchar(255) NOT NULL DEFAULT '',
-  `penjualan_tagihan` decimal(15,2) DEFAULT NULL,
-  `penjualan_bayar` decimal(15,2) DEFAULT NULL,
-  `penjualan_sisa` decimal(15,2) DEFAULT NULL,
-  `penjualan_jatuh_tempo` date DEFAULT NULL,
-  `penjualan_lunas` date DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `keterangan` varchar(255) NOT NULL DEFAULT '',
+  `tagihan` decimal(15,2) DEFAULT NULL,
+  `bayar` decimal(15,2) DEFAULT NULL,
+  `sisa` decimal(15,2) DEFAULT NULL,
+  `jatuh_tempo` date DEFAULT NULL,
+  `lunas` date DEFAULT NULL,
   `pelanggan_id` bigint(20) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -354,7 +354,7 @@ CREATE TABLE `penjualan` (
 -- Dumping data for table `penjualan`
 --
 
-INSERT INTO `penjualan` (`penjualan_id`, `penjualan_tanggal`, `penjualan_keterangan`, `penjualan_tagihan`, `penjualan_bayar`, `penjualan_sisa`, `penjualan_jatuh_tempo`, `penjualan_lunas`, `pelanggan_id`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `penjualan` (`penjualan_id`, `tanggal`, `keterangan`, `tagihan`, `bayar`, `sisa`, `jatuh_tempo`, `lunas`, `pelanggan_id`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 ('20201229061200882922', '2020-12-29', 'BUTUH SEGERA', '950000.00', '995000.00', '45000.00', NULL, '2020-12-29', 62, 'administrator', '2020-12-29 11:54:00', '2020-12-29 11:56:38', '2020-12-29 11:56:38'),
 ('20201229061221231490', '2020-12-29', '-', '5292000.00', '5292000.00', '0.00', '2021-01-05', NULL, NULL, 'administrator', '2020-12-29 11:20:21', '2020-12-29 11:32:28', '2020-12-29 11:32:28'),
 ('20210104100124390773', '2021-01-04', 'HAIFA', '5280000.00', '5280000.00', '0.00', '2021-01-12', NULL, 64, 'administrator', '2021-01-04 15:30:24', '2021-01-04 15:30:24', NULL);
@@ -368,13 +368,13 @@ INSERT INTO `penjualan` (`penjualan_id`, `penjualan_tanggal`, `penjualan_keteran
 CREATE TABLE `penjualan_detail` (
   `penjualan_id` varchar(255) NOT NULL,
   `barang_id` bigint(20) NOT NULL,
-  `satuan_nama` varchar(255) NOT NULL,
-  `satuan_harga` decimal(15,2) NOT NULL,
-  `satuan_rasio_dari_utama` double NOT NULL,
-  `penjualan_detail_tambahan` decimal(15,2) DEFAULT NULL,
-  `penjualan_detail_qty` double NOT NULL,
-  `penjualan_detail_diskon` double DEFAULT NULL,
-  `penjualan_detail_total` decimal(15,2) DEFAULT NULL,
+  `nama` varchar(255) NOT NULL,
+  `harga` decimal(15,2) NOT NULL,
+  `rasio_dari_utama` double NOT NULL,
+  `tambahan` decimal(15,2) DEFAULT NULL,
+  `qty` double NOT NULL,
+  `diskon` double DEFAULT NULL,
+  `total` decimal(15,2) DEFAULT NULL,
   `pbf_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
@@ -382,7 +382,7 @@ CREATE TABLE `penjualan_detail` (
 -- Dumping data for table `penjualan_detail`
 --
 
-INSERT INTO `penjualan_detail` (`penjualan_id`, `barang_id`, `satuan_nama`, `satuan_harga`, `satuan_rasio_dari_utama`, `penjualan_detail_tambahan`, `penjualan_detail_qty`, `penjualan_detail_diskon`, `penjualan_detail_total`, `pbf_id`) VALUES
+INSERT INTO `penjualan_detail` (`penjualan_id`, `barang_id`, `nama`, `harga`, `rasio_dari_utama`, `tambahan`, `qty`, `diskon`, `total`, `pbf_id`) VALUES
 ('20201229061221231490', 222, 'dus', '1080000.00', 1, NULL, 5, 2, '5292000.00', NULL),
 ('20201229061200882922', 222, 'pcs', '95000.00', 12, NULL, 10, 0, '950000.00', NULL),
 ('20210104100124390773', 230, 'dus max', '88000.00', 60, NULL, 60, 0, '5280000.00', NULL);
@@ -462,10 +462,10 @@ CREATE TABLE `role_has_permissions` (
 
 CREATE TABLE `satuan` (
   `barang_id` bigint(20) NOT NULL,
-  `satuan_id` int(11) NOT NULL,
-  `satuan_nama` varchar(255) NOT NULL,
-  `satuan_harga` decimal(15,2) NOT NULL,
-  `satuan_rasio_dari_utama` double NOT NULL,
+  `urutan` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `harga` decimal(15,2) NOT NULL,
+  `rasio_dari_utama` double NOT NULL,
   `utama` tinyint(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
@@ -473,7 +473,7 @@ CREATE TABLE `satuan` (
 -- Dumping data for table `satuan`
 --
 
-INSERT INTO `satuan` (`barang_id`, `satuan_id`, `satuan_nama`, `satuan_harga`, `satuan_rasio_dari_utama`, `utama`) VALUES
+INSERT INTO `satuan` (`barang_id`, `urutan`, `nama`, `harga`, `rasio_dari_utama`, `utama`) VALUES
 (222, 0, 'dus', '1080000.00', 1, 1),
 (222, 1, 'pcs', '95000.00', 12, 0),
 (223, 0, 'pack', '60000.00', 1, 1),
@@ -525,9 +525,9 @@ INSERT INTO `satuan` (`barang_id`, `satuan_id`, `satuan_nama`, `satuan_harga`, `
 --
 
 CREATE TABLE `stok_awal` (
-  `stok_awal_tanggal` date NOT NULL,
+  `awal_tanggal` date NOT NULL,
   `barang_id` bigint(20) NOT NULL,
-  `barang_qty` double(255,0) DEFAULT NULL
+  `qty` double(255,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
@@ -538,9 +538,9 @@ CREATE TABLE `stok_awal` (
 
 CREATE TABLE `supplier` (
   `supplier_id` bigint(20) NOT NULL,
-  `supplier_nama` varchar(255) DEFAULT NULL,
-  `supplier_alamat` text DEFAULT NULL,
-  `supplier_kontak` varchar(255) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `kontak` varchar(255) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -551,7 +551,7 @@ CREATE TABLE `supplier` (
 -- Dumping data for table `supplier`
 --
 
-INSERT INTO `supplier` (`supplier_id`, `supplier_nama`, `supplier_alamat`, `supplier_kontak`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `supplier` (`supplier_id`, `nama`, `alamat`, `kontak`, `pengguna_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (62, 'CV ZAYCO BOGA ALIFA', 'JAKARTA', 'JAYADI 081299134919', 'administrator', '2020-12-29 11:03:25', '2020-12-29 11:03:25', NULL),
 (63, 'PT DAGSAP ENDURA EATORE', 'CAHAYA RAYA BOGOR', '08980784617', 'administrator', '2020-12-29 11:26:41', '2020-12-29 11:26:41', NULL),
 (64, 'AGRO GUNA', 'JL. TAMBORA NO. 4 GOMONG MATARAM', '085237424016', 'administrator', '2021-01-04 14:38:01', '2021-01-04 14:38:01', NULL),
@@ -683,7 +683,7 @@ ALTER TABLE `satuan`
 -- Indexes for table `stok_awal`
 --
 ALTER TABLE `stok_awal`
-  ADD PRIMARY KEY (`stok_awal_tanggal`,`barang_id`) USING BTREE;
+  ADD PRIMARY KEY (`awal_tanggal`,`barang_id`) USING BTREE;
 
 --
 -- Indexes for table `supplier`

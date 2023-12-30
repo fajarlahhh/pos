@@ -66,10 +66,10 @@
                 <tr>
                     <td class="align-middle">{{ ++$i }}</td>
                     <td class="align-middle">
-                        <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->pengguna->pengguna_nama.", <br><small>".$row->updated_at."</small>" !!}">{{ $row->pelanggan_nama }}</span>
+                        <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->pengguna->nama.", <br><small>".$row->updated_at."</small>" !!}">{{ $row->nama }}</span>
                     </td>
-                    <td class="align-middle">{{ $row->pelanggan_alamat }}</td>
-                    <td class="align-middle">{{ $row->pelanggan_kontak }}</td>
+                    <td class="align-middle">{{ $row->alamat }}</td>
+                    <td class="align-middle">{{ $row->kontak }}</td>
                     @role('super-admin|supervisor|user')
                     <td class="with-btn-group align-middle" nowrap>
                         <div class="btn-group">

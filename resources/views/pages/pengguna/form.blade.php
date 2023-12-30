@@ -40,11 +40,11 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Nama</label>
-                        <input class="form-control" type="text" name="pengguna_nama" value="{{ old('pengguna_nama')? old('pengguna_nama'): ($aksi == "Edit"? $data->pengguna_nama: "") }}" autocomplete="off" id="pengguna_nama" data-parsley-minlength="2" required />
+                        <input class="form-control" type="text" name="nama" value="{{ old('nama')? old('nama'): ($aksi == "Edit"? $data->nama: "") }}" autocomplete="off" id="nama" data-parsley-minlength="2" required />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Kata Sandi</label>
-                        <input class="form-control" type="password" name="pengguna_sandi" autocomplete="off" id="pengguna_sandi" data-parsley-minlength="5" {{ $aksi == 'Tambah'? 'required': '' }} />
+                        <input class="form-control" type="password" name="sandi" autocomplete="off" id="sandi" data-parsley-minlength="5" {{ $aksi == 'Tambah'? 'required': '' }} />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Level</label>
@@ -89,7 +89,7 @@
 	<script>
 		$(document).ready(function() {
 			hakakses();
-    		$('#pengguna_sandi').password();
+    		$('#sandi').password();
         });
 
 

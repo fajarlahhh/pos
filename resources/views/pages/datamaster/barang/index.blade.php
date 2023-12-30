@@ -42,7 +42,7 @@
                             <select class="form-control selectpicker cari" name="konsinyasi" data-live-search="true" data-style="btn-danger" data-width="100%">
                                 <option value="semua" {{ $konsinyasi == 'semua'? 'selected': '' }}>Semua Konsinyasi</option>
                                 @foreach ($supplier as $row)
-                                <option value="{{ $row->supplier_id }}" {{ $konsinyasi == $row->supplier_id? 'selected': '' }}>{{ $row->supplier_nama }}</option>
+                                <option value="{{ $row->supplier_id }}" {{ $konsinyasi == $row->supplier_id? 'selected': '' }}>{{ $row->nama }}</option>
                                 @endforeach
                             </select>
                         </div>&nbsp;
@@ -86,14 +86,14 @@
                 <tr>
                     <td class="align-middle">{{ ++$i }}</td>
                     <td class="align-middle">
-                        <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->pengguna->pengguna_nama.", <br><small>".$row->updated_at."</small>" !!}">{{ $row->barang_nama }}</span>
+                        <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->pengguna->nama.", <br><small>".$row->updated_at."</small>" !!}">{{ $row->nama }}</span>
                     </td>
-                    <td class="align-middle text-center text-nowrap">{{ number_format($row->barang_stok_min) }}</td>
-                    <td class="align-middle">{{ $row->satuan_utama? $row->satuan_utama->satuan_nama: '' }}</td>
-                    <td class="align-middle text-right text-nowrap">{{ number_format($row->satuan_utama? $row->satuan_utama->satuan_harga: 0, 2) }}</td>
+                    <td class="align-middle text-center text-nowrap">{{ number_format($row->stok_min) }}</td>
+                    <td class="align-middle">{{ $row->satuan_utama? $row->satuan_utama->nama: '' }}</td>
+                    <td class="align-middle text-right text-nowrap">{{ number_format($row->satuan_utama? $row->satuan_utama->harga: 0, 2) }}</td>
                     <td class="align-middle">{{ $row->jenis_barang? $row->jenis_barang->jenis_barang_uraian: "" }}</td>
-                    <td class="align-middle">{{ $row->supplier? $row->supplier->supplier_nama: "" }}</td>
-                    <td class="align-middle">{{ $row->barang_keterangan }}</td>
+                    <td class="align-middle">{{ $row->supplier? $row->supplier->nama: "" }}</td>
+                    <td class="align-middle">{{ $row->keterangan }}</td>
                     @role('super-admin|supervisor')
                     <td class="with-btn-group align-middle" nowrap>
                         <div class="btn-group">

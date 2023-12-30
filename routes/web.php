@@ -16,6 +16,7 @@ use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\JenisbarangController;
 use App\Http\Controllers\PostingstokController;
 use App\Http\Controllers\PenjualanresepController;
+use App\Http\Controllers\ReturController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,17 +109,6 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|dokter']], function () {
-        Route::prefix('dokter')->group(function () {
-            Route::get('/', [DokterController::class, 'index'])->name('dokter');
-            Route::get('/tambah', [DokterController::class, 'tambah'])->middleware(['role:super-admin|user|supervisor'])->name('dokter.tambah');
-            Route::get('/edit', [DokterController::class, 'edit'])->middleware(['role:super-admin|user|supervisor'])->name('dokter.edit');
-            Route::post('/simpan', [DokterController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('dokter.simpan');
-            Route::delete('/hapus', [DokterController::class, 'hapus'])->middleware(['role:super-admin|user|supervisor']);
-            Route::patch('/restore', [DokterController::class, 'restore'])->middleware(['role:super-admin|supervisor']);
-        });
-    });
-
     Route::group(['middleware' => ['role_or_permission:super-admin|pengguna']], function () {
         Route::prefix('pengguna')->group(function () {
             Route::get('/', [PenggunaController::class, 'index'])->name('pengguna');
@@ -141,6 +131,17 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
+    Route::group(['middleware' => ['role_or_permission:super-admin|retur']], function () {
+        Route::prefix('retur')->group(function () {
+            Route::get('/tambahbarang/{id}', [ReturController::class, 'tambah_barang']);
+            Route::get('/', [ReturController::class, 'index'])->name('barangmasuk');
+            Route::get('/tambah', [ReturController::class, 'tambah'])->middleware(['role:super-admin|user|supervisor'])->name('barangmasuk.tambah');
+            Route::post('/simpan', [ReturController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('barangmasuk.simpan');
+            Route::delete('/hapus', [ReturController::class, 'hapus'])->middleware(['role:super-admin|user|supervisor']);
+            Route::patch('/restore', [ReturController::class, 'restore'])->middleware(['role:super-admin|user|supervisor']);
+        });
+    });
+
     Route::group(['middleware' => ['role_or_permission:super-admin|penjualan']], function () {
         Route::prefix('penjualan')->group(function () {
             Route::get('/kwitansi/{cetak}/{id}', [PenjualanController::class, 'nota']);
@@ -152,21 +153,6 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/simpan', [PenjualanController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('penjualan.simpan');
             Route::delete('/hapus', [PenjualanController::class, 'hapus'])->middleware(['role:super-admin|user|supervisor']);
             Route::patch('/restore', [PenjualanController::class, 'restore'])->middleware(['role:super-admin|user|supervisor']);
-        });
-    });
-
-    Route::group(['middleware' => ['role_or_permission:super-admin|penjualanresep']], function () {
-        Route::prefix('penjualanresep')->group(function () {
-            Route::get('/kwitansi/{cetak}/{id}', [PenjualanresepController::class, 'nota']);
-            Route::get('/tambahbarang/{resep}/{id}', [PenjualanresepController::class, 'tambah_barang']);
-            Route::get('/tambahresep/{id}', [PenjualanresepController::class, 'tambah_resep']);
-            Route::get('/data', [PenjualanresepController::class, 'index'])->name('penjualanresep');
-            Route::get('/penjualanresep/kwitansi/{id}', [PenjualanresepController::class, 'index']);
-            Route::get('/', [PenjualanresepController::class, 'tambah']);
-            Route::get('/tambah', [PenjualanresepController::class, 'tambah'])->middleware(['role:super-admin|user|supervisor'])->name('penjualanresep.tambah');
-            Route::post('/simpan', [PenjualanresepController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('penjualanresep.simpan');
-            Route::delete('/hapus', [PenjualanresepController::class, 'hapus'])->middleware(['role:super-admin|user|supervisor']);
-            Route::patch('/restore', [PenjualanresepController::class, 'restore'])->middleware(['role:super-admin|user|supervisor']);
         });
     });
 
@@ -184,45 +170,17 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporanpenerimaanperhari']], function () {
-        Route::prefix('laporanpenerimaanperhari')->group(function () {
-            Route::get('/', [LaporanController::class, 'laporanpenerimaanperhari'])->name('laporanpenerimaanperhari');
-            Route::get('/{cetak}', [LaporanController::class, 'laporanpenerimaanperhari'])->name('laporanpenerimaanperhari.cetak');
+    Route::group(['middleware' => ['role_or_permission:super-admin|laporanlabarugi']], function () {
+        Route::prefix('laporanlabarugi')->group(function () {
+            Route::get('/', [LaporanController::class, 'laporanlabarugi'])->name('laporanlabarugi');
+            Route::get('/{cetak}', [LaporanController::class, 'laporanlabarugi'])->name('laporanlabarugi.cetak');
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporanpenerimaanbulanan']], function () {
-        Route::prefix('laporanpenerimaanbulanan')->group(function () {
-            Route::get('/', [LaporanController::class, 'laporanpenerimaanbulanan'])->name('laporanpenerimaanbulanan');
-            Route::get('/{cetak}', [LaporanController::class, 'laporanpenerimaanbulanan'])->name('laporanpenerimaanbulanan.cetak');
-        });
-    });
-
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporankonsinyasiperhari']], function () {
-        Route::prefix('laporankonsinyasiperhari')->group(function () {
-            Route::get('/', [LaporanController::class, 'laporankonsinyasiperhari'])->name('laporankonsinyasiperhari');
-            Route::get('/{cetak}', [LaporanController::class, 'laporankonsinyasiperhari'])->name('laporankonsinyasiperhari.cetak');
-        });
-    });
-
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporankonsinyasibulanan']], function () {
-        Route::prefix('laporankonsinyasibulanan')->group(function () {
-            Route::get('/', [LaporanController::class, 'laporankonsinyasibulanan'])->name('laporankonsinyasibulanan');
-            Route::get('/{cetak}', [LaporanController::class, 'laporankonsinyasibulanan'])->name('laporankonsinyasibulanan.cetak');
-        });
-    });
-
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporanpenerimaandokterperhari']], function () {
-        Route::prefix('laporanpenerimaandokterperhari')->group(function () {
-            Route::get('/', [LaporanController::class, 'laporanpenerimaandokterperhari'])->name('laporanpenerimaandokterperhari');
-            Route::get('/{cetak}', [LaporanController::class, 'laporanpenerimaandokterperhari'])->name('laporanpenerimaandokterperhari.cetak');
-        });
-    });
-
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporanpenerimaandokterbulanan']], function () {
-        Route::prefix('laporanpenerimaandokterbulanan')->group(function () {
-            Route::get('/', [LaporanController::class, 'laporanpenerimaandokterbulanan'])->name('laporanpenerimaandokterbulanan');
-            Route::get('/{cetak}', [LaporanController::class, 'laporanpenerimaandokterbulanan'])->name('laporanpenerimaandokterbulanan.cetak');
+    Route::group(['middleware' => ['role_or_permission:super-admin|laporankonsinyasi']], function () {
+        Route::prefix('laporankonsinyasi')->group(function () {
+            Route::get('/', [LaporanController::class, 'laporankonsinyasi'])->name('laporankonsinyasi');
+            Route::get('/{cetak}', [LaporanController::class, 'laporankonsinyasi'])->name('laporankonsinyasi.cetak');
         });
     });
 });

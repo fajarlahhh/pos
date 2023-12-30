@@ -11,10 +11,9 @@ class JatuhTempo extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = 'jatuh_tempo';
-    protected $primaryKey = "jatuh_tempo_id";
 
     public function barang_masuk()
     {
-        return $this->hasMany('App\Models\BarangMasuk', 'barang_masuk_faktur', 'barang_masuk_faktur');
+        return $this->hasMany(BarangMasuk::class, 'faktur', 'faktur');
     }
 }

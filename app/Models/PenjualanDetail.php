@@ -15,12 +15,12 @@ class PenjualanDetail extends Model
 
     public function barang()
     {
-        return $this->belongsTo('App\Models\Barang', 'barang_id', 'barang_id')->withTrashed();
+        return $this->belongsTo(Barang::class)->withTrashed();
     }
 
     public function supplier()
     {
-        return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'supplier_id');
+        return $this->belongsTo(Supplier::class);
     }
 
     public function penjualan()

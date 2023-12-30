@@ -19,7 +19,7 @@ class LoginController extends Controller
         if (Auth::attempt(['pengguna_id' => $req->uid, 'password' => $req->password], $remember)) {
             return redirect()->intended('dashboard')
             ->with([
-                'gritter_judul' => 'Selamat datang '.Auth::user()->pengguna_nama,
+                'gritter_judul' => 'Selamat datang '.Auth::user()->nama,
                 'gritter_teks' => 'Selamat bekerja dan semoga sukses',
                 'gritter_gambar' => '../assets/img/user/user.png'
                 ]);

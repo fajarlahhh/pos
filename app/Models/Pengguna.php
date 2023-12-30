@@ -18,13 +18,12 @@ class Pengguna extends Authenticatable
      * @var array
      */
     protected $table = 'pengguna';
-    protected $primaryKey = 'pengguna_id';
     public $incrementing = false;
     protected $rememberTokenName = 'remember_token';
     protected $keyType = 'string';
 
     protected $fillable = [
-        'pengguna_id', 'pengguna_sandi'
+        'pengguna_id', 'sandi'
     ];
 
     protected $hidden = [
@@ -33,6 +32,6 @@ class Pengguna extends Authenticatable
 
     public function getAuthPassword()
     {
-        return $this->pengguna_sandi;
+        return $this->sandi;
     }
 }

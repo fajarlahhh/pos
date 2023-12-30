@@ -72,6 +72,11 @@ return [
 		'url' => '/penjualan',
 		'id' => 'penjualan'
 	],[
+		'icon' => 'fa fa-undo',
+		'title' => 'Retur',
+		'url' => '/retur',
+		'id' => 'retur'
+	],[
 		'icon' => 'fa fa-gavel',
 		'title' => 'Posting Stok Akhir',
 		'url' => '/postingstok',

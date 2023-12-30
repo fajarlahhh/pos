@@ -15,23 +15,22 @@ class Penjualan extends Model
     use Pengguna;
     //
     protected $table = 'penjualan';
-    protected $primaryKey = 'penjualan_id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     public function pelanggan()
     {
-        return $this->belongsTo('App\Models\Pelanggan', 'pelanggan_id', 'pelanggan_id');
+        return $this->belongsTo(Pelanggan::class);
     }
 
     public function detail()
     {
-        return $this->hasMany('App\Models\PenjualanDetail', 'penjualan_id', 'penjualan_id');
+        return $this->hasMany(PenjualanDetail::class);
     }
 
     public function pengguna()
     {
-        return $this->belongsTo('App\Models\Pengguna', 'pengguna_id', 'pengguna_id');
+        return $this->belongsTo(Pengguna::class);
     }
 
     public function getCreatedAtAttribute($value)

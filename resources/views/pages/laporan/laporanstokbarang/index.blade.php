@@ -75,13 +75,13 @@
                 @foreach ($data as $index => $row)
                 <tr>
                     <td>{{  ++$index }}</td>
-                    <td>{{  $row->barang_nama }}</td>
+                    <td>{{  $row->nama }}</td>
                     <td>{{  $row->jenis_barang? $row->jenis_barang->jenis_barang_uraian: '' }}</td>
-                    <td>{{  $row->satuan_utama? $row->satuan_utama->satuan_nama: '' }}</td>
-                    <td>{{  number_format($row->stok_awal->count() > 0? $row->stok_awal->sum('barang_qty'): 0) }}</td>
+                    <td>{{  $row->satuan_utama? $row->satuan_utama->nama: '' }}</td>
+                    <td>{{  number_format($row->stok_awal->count() > 0? $row->stok_awal->sum('qty'): 0) }}</td>
                     <td>{{  number_format($row->barang_masuk->count() > 0? $row->barang_masuk->sum('masuk'): 0) }}</td>
                     <td>{{  number_format($row->penjualan->count() > 0? $row->penjualan->sum('keluar'): 0 )}}</td>
-                    <td>{{  number_format(($row->stok_awal->count() > 0? $row->stok_awal->sum('barang_qty'): 0) + ($row->barang_masuk->count() > 0? $row->barang_masuk->sum('masuk'): 0) - ($row->penjualan->count() > 0? $row->penjualan->sum('keluar'): 0)) }}</td>
+                    <td>{{  number_format(($row->stok_awal->count() > 0? $row->stok_awal->sum('qty'): 0) + ($row->barang_masuk->count() > 0? $row->barang_masuk->sum('masuk'): 0) - ($row->penjualan->count() > 0? $row->penjualan->sum('keluar'): 0)) }}</td>
                 </tr>
                 @endforeach
             </tbody>

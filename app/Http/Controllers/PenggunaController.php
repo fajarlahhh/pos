@@ -25,7 +25,7 @@ class PenggunaController extends Controller
 	{
         $tipe = $req->tipe? $req->tipe: 0;
 
-        $data = Pengguna::where('pengguna_id', 'like', '%'.$req->cari.'%')->where('pengguna_nama', 'like', '%'.$req->cari.'%');
+        $data = Pengguna::where('pengguna_id', 'like', '%'.$req->cari.'%')->where('nama', 'like', '%'.$req->cari.'%');
 
         switch ($tipe) {
             case '1':
@@ -129,7 +129,7 @@ class PenggunaController extends Controller
 	{
         $req->validate([
             'pengguna_id' => 'required',
-            'pengguna_nama' => 'required',
+            'nama' => 'required',
             'pengguna_level' => 'required'
         ]);
 
@@ -137,11 +137,11 @@ class PenggunaController extends Controller
             if($req->get('ID')){
                 DB::transaction(function() use($req){
                     $pengguna = Pengguna::findOrFail($req->get('ID'));
-                    if ($req->get('pengguna_sandi')) {
-                        $pengguna->pengguna_sandi = Hash::make($req->get('pengguna_sandi'));
+                    if ($req->get('sandi')) {
+                        $pengguna->sandi = Hash::make($req->get('sandi'));
                     }
                     $pengguna->pengguna_id = $req->get('pengguna_id');
-                    $pengguna->pengguna_nama = $req->get('pengguna_nama');
+                    $pengguna->nama = $req->get('nama');
                     $pengguna->save();
                     $pengguna->syncPermissions();
                     $pengguna->removeRole($pengguna->getRoleNames()[0]);
@@ -158,9 +158,9 @@ class PenggunaController extends Controller
             }else{
                 DB::transaction(function() use($req){
                     $pengguna = new Pengguna();
-                    $pengguna->pengguna_nama = $req->get('pengguna_nama');
+                    $pengguna->nama = $req->get('nama');
                     $pengguna->pengguna_id = $req->get('pengguna_id');
-                    $pengguna->pengguna_sandi = Hash::make($req->get('pengguna_sandi'));
+                    $pengguna->sandi = Hash::make($req->get('sandi'));
                     $pengguna->save();
                     $pengguna->assignRole($req->get('pengguna_level'));
 
@@ -216,8 +216,8 @@ class PenggunaController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'pengguna_sandi_baru' => 'required|min:5',
-                'pengguna_sandi_lama' => 'required|min:5',
+                'sandi_baru' => 'required|min:5',
+                'sandi_lama' => 'required|min:5',
             ]
         );
 
@@ -229,7 +229,7 @@ class PenggunaController extends Controller
 		try{
 			$pengguna = Pengguna::findOrFail(Auth::id());
 			if($pengguna){
-				if(!Hash::check($req->get('pengguna_sandi_lama'), $pengguna->pengguna_sandi)){
+				if(!Hash::check($req->get('sandi_lama'), $pengguna->sandi)){
                     alert()->error('Ganti Sandi Gagal', 'Kata sandi lama salah');
 					return redirect()->back();
 				}
@@ -237,7 +237,7 @@ class PenggunaController extends Controller
                 alert()->error('Ganti Sandi Gagal', 'Data pengguna tidak tersedia');
 				return redirect()->back();
 			}
-			$pengguna->pengguna_sandi = Hash::make($req->get('pengguna_sandi_baru'));
+			$pengguna->sandi = Hash::make($req->get('sandi_baru'));
 			$pengguna->save();
             toast('Berhasil mengganti kata sandi', 'success')->autoClose(2000);
 			return redirect()->back();

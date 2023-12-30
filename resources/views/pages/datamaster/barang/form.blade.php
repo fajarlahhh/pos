@@ -35,11 +35,11 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Nama Barang</label>
-                        <input class="form-control" type="text" name="barang_nama" value="{{ old('barang_nama', ($aksi == 'Edit'? $data->barang_nama: '')) }}" autocomplete="off" required/>
+                        <input class="form-control" type="text" name="nama" value="{{ old('nama', ($aksi == 'Edit'? $data->nama: '')) }}" autocomplete="off" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Stok Minimal</label>
-                        <input class="form-control" type="number" name="barang_stok_min" value="{{ old('barang_stok_min', ($aksi == 'Edit'? $data->barang_stok_min: '')) }}" autocomplete="off" required/>
+                        <input class="form-control" type="number" name="stok_min" value="{{ old('stok_min', ($aksi == 'Edit'? $data->stok_min: '')) }}" autocomplete="off" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Jenis Barang</label>
@@ -90,7 +90,7 @@
                                     }
                                 }
                             @endphp
-                            <option value="{{ $row->supplier_id }}" {{ $selected }}>{{ $row->supplier_nama }} - {{ $row->supplier_alamat }}</option>
+                            <option value="{{ $row->supplier_id }}" {{ $selected }}>{{ $row->nama }} - {{ $row->alamat }}</option>
                             @endforeach
                             @php
                                 $selected = '';
@@ -109,15 +109,15 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Satuan Utama</label>
-                        <input class="form-control" type="text" name="satuan_nama" value="{{ old('satuan_nama', ($aksi == 'Edit' && $data->satuan_utama? $data->satuan_utama->satuan_nama: '')) }}" autocomplete="off" required/>
+                        <input class="form-control" type="text" name="nama" value="{{ old('nama', ($aksi == 'Edit' && $data->satuan_utama? $data->satuan_utama->nama: '')) }}" autocomplete="off" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Harga Jual</label>
-                        <input class="form-control decimal text-right" type="text" name="satuan_harga" value="{{ old('satuan_harga', ($aksi == 'Edit' && $data->satuan_utama? $data->satuan_utama->satuan_harga: '')) }}" required autocomplete="off"/>
+                        <input class="form-control decimal text-right" type="text" name="harga" value="{{ old('harga', ($aksi == 'Edit' && $data->satuan_utama? $data->satuan_utama->harga: '')) }}" required autocomplete="off"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Keterangan</label>
-                        <input class="form-control" type="text" name="barang_keterangan" value="{{ old('barang_keterangan', ($aksi == 'Edit'? $data->barang_keterangan: '')) }}" autocomplete="off" />
+                        <input class="form-control" type="text" name="keterangan" value="{{ old('keterangan', ($aksi == 'Edit'? $data->keterangan: '')) }}" autocomplete="off" />
                     </div>
                 </div>
                 <div class="col-md-6">

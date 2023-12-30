@@ -11,17 +11,15 @@ class BarangMasukDetail extends Model
     use HasFactory;
     //
     protected $table = 'barang_masuk_detail';
-    protected $primaryKey = null;
-    public $incrementing = false;
     public $timestamps = false;
 
     public function barang()
     {
-        return $this->belongsTo('App\Models\Barang', 'barang_id', 'barang_id')->withTrashed();
+        return $this->belongsTo(Barang::class)->withTrashed();
     }
 
     public function barang_masuk()
     {
-        return $this->belongsTo('App\Models\BarangMasuk', 'barang_masuk_id', 'barang_masuk_id');
+        return $this->belongsTo(BarangMasuk::class);
     }
 }

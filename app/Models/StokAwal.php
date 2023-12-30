@@ -9,7 +9,7 @@ class StokAwal extends Model
 {
     use HasFactory;
     protected $table = 'stok_awal';
-    protected $primaryKey = ["barang_id", "stok_awal_tanggal"];
+    protected $primaryKey = ["barang_id", "awal_tanggal"];
     public $incrementing = false;
     public $timestamps = false;
     protected $keyType = 'string';

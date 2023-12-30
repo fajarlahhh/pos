@@ -95,10 +95,10 @@
                 @foreach ($data as $index => $row)
                 <tr>
                     <td class="text-nowrap align-middle">{{  ++$index }}</td>
-                    <td class="text-nowrap align-middle">{{ $row->penjualan_tanggal }}</td>
-                    <td class="text-nowrap align-middle">{{ $row->pelanggan? $row->pelanggan->pelanggan_nama:'' }}</td>
-                    <td class="text-nowrap text-right align-middle">{{ number_format($row->penjualan_tagihan, 2) }}</td>
-                    <td class="align-middle">{{ $row->penjualan_lunas? "LUNAS": "Jatuh Tempo ".$row->penjualan_jatuh_tempo }}</td>
+                    <td class="text-nowrap align-middle">{{ $row->tanggal }}</td>
+                    <td class="text-nowrap align-middle">{{ $row->pelanggan? $row->pelanggan->nama:'' }}</td>
+                    <td class="text-nowrap text-right align-middle">{{ number_format($row->tagihan, 2) }}</td>
+                    <td class="align-middle">{{ $row->lunas? "LUNAS": "Jatuh Tempo ".$row->jatuh_tempo }}</td>
                     <td class="align-middle">
                         <table class="table table-bordered m-b-0">
                             <thead>
@@ -113,11 +113,11 @@
                             <tbody>
                                 @foreach ($row->detail as $index => $detail)
                                 <tr>
-                                    <td class="p-3 text-nowrap">{{ $detail->barang->barang_nama }}</td>
-                                    <td class="p-3 text-nowrap">{{ $detail->satuan_nama }}</td>
-                                    <td class="text-right p-3 text-nowrap">{{ number_format($detail->satuan_harga, 2) }}</td>
-                                    <td class="text-right p-3">{{ number_format($detail->penjualan_detail_qty) }}</td>
-                                    <td class="text-right p-3">{{ number_format($detail->penjualan_detail_diskon) }} %</td>
+                                    <td class="p-3 text-nowrap">{{ $detail->barang->nama }}</td>
+                                    <td class="p-3 text-nowrap">{{ $detail->nama }}</td>
+                                    <td class="text-right p-3 text-nowrap">{{ number_format($detail->harga, 2) }}</td>
+                                    <td class="text-right p-3">{{ number_format($detail->qty) }}</td>
+                                    <td class="text-right p-3">{{ number_format($detail->diskon) }} %</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -127,7 +127,7 @@
                 @endforeach
                 <tr>
                     <th colspan="3">TOTAL</th>
-                    <th class="text-nowrap text-right align-middle">{{ number_format($data->sum('penjualan_tagihan'),2) }}</th>
+                    <th class="text-nowrap text-right align-middle">{{ number_format($data->sum('tagihan'),2) }}</th>
                 </tr>
             </tbody>
         </table>

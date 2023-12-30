@@ -15,16 +15,15 @@ class JenisBarang extends Model
     use Pengguna;
     //
     protected $table = 'jenis_barang';
-    protected $primaryKey = 'jenis_barang_id';
 
     public function barang()
     {
-        return $this->hasMany('App\Models\Barang', 'jenis_barang_id', 'jenis_barang_id');
+        return $this->hasMany(Barang::class);
     }
 
     public function pengguna()
     {
-        return $this->belongsTo('App\Models\Pengguna', 'pengguna_id', 'pengguna_id');
+        return $this->belongsTo(Pengguna::class);
     }
 
     public function getCreatedAtAttribute($value)

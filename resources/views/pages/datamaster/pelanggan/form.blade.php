@@ -33,15 +33,15 @@
         <div class="panel-body">
             <div class="form-group">
                 <label class="control-label">Nama</label>
-                <input class="form-control" type="text" name="pelanggan_nama" value="{{ old('pelanggan_nama')? old('pelanggan_nama'): ($aksi == 'Edit'? $data->pelanggan_nama: '') }}" autocomplete="off" required/>
+                <input class="form-control" type="text" name="nama" value="{{ old('nama')? old('nama'): ($aksi == 'Edit'? $data->nama: '') }}" autocomplete="off" required/>
             </div>
             <div class="form-group">
                 <label class="control-label">Alamat</label>
-                <input class="form-control" type="text" name="pelanggan_alamat" value="{{ old('pelanggan_alamat')? old('pelanggan_alamat'): ($aksi == 'Edit'? $data->pelanggan_alamat: '') }}" autocomplete="off" required/>
+                <input class="form-control" type="text" name="alamat" value="{{ old('alamat')? old('alamat'): ($aksi == 'Edit'? $data->alamat: '') }}" autocomplete="off" required/>
             </div>
             <div class="form-group">
                 <label class="control-label">Kontak</label>
-                <input class="form-control" type="text" name="pelanggan_kontak" value="{{ old('pelanggan_kontak')? old('pelanggan_kontak'): ($aksi == 'Edit'? $data->pelanggan_kontak: '') }}" autocomplete="off" required/>
+                <input class="form-control" type="text" name="kontak" value="{{ old('kontak')? old('kontak'): ($aksi == 'Edit'? $data->kontak: '') }}" autocomplete="off" required/>
             </div>
         </div>
         <div class="panel-footer">

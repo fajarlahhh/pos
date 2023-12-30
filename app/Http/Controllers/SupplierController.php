@@ -14,7 +14,7 @@ class SupplierController extends Controller
         $tipe = $req->tipe? $req->tipe: 0;
 
         $data = Supplier::with('pengguna')->where(function($q) use ($req){
-            $q->where('supplier_nama', 'like', '%'.$req->cari.'%')->orWhere('supplier_alamat', 'like', '%'.$req->cari.'%');
+            $q->where('nama', 'like', '%'.$req->cari.'%')->orWhere('alamat', 'like', '%'.$req->cari.'%');
         });
 
         switch ($tipe) {
@@ -47,24 +47,24 @@ class SupplierController extends Controller
 	public function simpan(Request $req)
 	{
         $req->validate([
-            'supplier_nama' => 'required',
-            'supplier_alamat' => 'required',
-            'supplier_kontak' => 'required'
+            'nama' => 'required',
+            'alamat' => 'required',
+            'kontak' => 'required'
         ]);
 
         try{
             if ($req->get('id')) {
                 $data = Supplier::findOrFail($req->get('id'));
-                $data->supplier_nama = $req->get('supplier_nama');
-                $data->supplier_alamat = $req->get('supplier_alamat');
-                $data->supplier_kontak = $req->get('supplier_kontak');
+                $data->nama = $req->get('nama');
+                $data->alamat = $req->get('alamat');
+                $data->kontak = $req->get('kontak');
                 $data->save();
                 toast('Berhasil mengedit data', 'success')->autoClose(2000);
             }else{
                 $data = new Supplier();
-                $data->supplier_nama = $req->get('supplier_nama');
-                $data->supplier_alamat = $req->get('supplier_alamat');
-                $data->supplier_kontak = $req->get('supplier_kontak');
+                $data->nama = $req->get('nama');
+                $data->alamat = $req->get('alamat');
+                $data->kontak = $req->get('kontak');
                 $data->save();
 
                 toast('Berhasil menambah data', 'success')->autoClose(2000);

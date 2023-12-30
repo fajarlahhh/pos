@@ -30,7 +30,7 @@
     <br>
     <div class="table-responsive">
         ID : {{ $data->penjualan_id }}
-        <div class="float-right">Tgl. Nota : {{ $data->penjualan_tanggal }}</div>
+        <div class="float-right">Tgl. Nota : {{ $data->tanggal }}</div>
         <table class="table">
             <tr>
                 <th class="width-70 p-0">No.</th>
@@ -44,20 +44,20 @@
                     {{ ++$index }}
                 </td>
                 <td class="p-0">
-                    {{ $row->barang->barang_nama }}
+                    {{ $row->barang->nama }}
                 </td>
                 <td class="p-0">
-                    {{ number_format($row->penjualan_detail_qty) }}
+                    {{ number_format($row->qty) }}
                 </td>
                 <td class="text-right p-0">
-                    {{ number_format($row->penjualan_detail_total, 2) }}
+                    {{ number_format($row->total, 2) }}
                 </td>
             </tr>
             @endforeach
             <tr>
                 <th colspan="3" class="text-right p-0">Total :</th>
                 <td class="text-right p-0" >
-                    {{ number_format($data->detail->sum('penjualan_detail_total'), 2) }}
+                    {{ number_format($data->detail->sum('total'), 2) }}
                 </th>
             </tr>
         </table>

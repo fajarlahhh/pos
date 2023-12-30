@@ -13,7 +13,7 @@
 					<img src="/assets/img/user/user.png" alt="" class="image"/>
 					<div class="info">
 						<b class="caret pull-right"></b>
-						{{ auth()->user()->pengguna_nama }}
+						{{ auth()->user()->nama }}
                         <br><span class="badge bg-blue-darker">{{ ucFirst(auth()->user()->getRoleNames()[0]) }}</span>
 					</div>
 				</a>

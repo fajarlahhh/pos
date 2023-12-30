@@ -31,14 +31,14 @@
         <div class="panel-body">
             <div class="form-group">
                 <label class="control-label">Keterangan (Nama)</label>
-                <textarea class="form-control" rows="3" name="penjualan_keterangan" required>{{ old('penjualan_keterangan') }}</textarea>
+                <textarea class="form-control" rows="3" name="keterangan" required>{{ old('keterangan') }}</textarea>
             </div>
             <div class="form-group">
                 <label class="control-label">Pelanggan</label>
                 <select class="form-control selectpicker" name="pelanggan_id" id="pelanggan_id" data-live-search="true" data-style="btn-warning" data-width="100%" >
                     <option value="" {{ old('pelanggan_id') == ''? 'selected': '' }}>-- Pilih Pelanggan --</option>
                     @foreach($pelanggan as $row)
-                    <option value="{{ $row->pelanggan_id }}" {{ old('pelanggan_id') == $row->pelanggan_id? 'selected': '' }}>{{ $row->pelanggan_nama }} - {{ $row->pelanggan_alamat }}</option>
+                    <option value="{{ $row->pelanggan_id }}" {{ old('pelanggan_id') == $row->pelanggan_id? 'selected': '' }}>{{ $row->nama }} - {{ $row->alamat }}</option>
                     @endforeach
                 </select>
             </div>
@@ -50,7 +50,7 @@
                             <input type="checkbox" aria-label="Checkbox for following text input" id="jatuh_tempo" value="1">
                         </div>
                     </div>
-                    <input type="text" readonly class="form-control datepicker" id="penjualan_jatuh_tempo" name="penjualan_jatuh_tempo" value="{{ date('d M Y', strtotime(old('penjualan_jatuh_tempo', now()))) }}" required disabled/>
+                    <input type="text" readonly class="form-control datepicker" id="jatuh_tempo" name="jatuh_tempo" value="{{ date('d M Y', strtotime(old('jatuh_tempo', now()))) }}" required disabled/>
                 </div>
             </div>
             <div class="note bg-grey-transparent-5">
@@ -73,7 +73,7 @@
                             <tr>
                                 <th colspan="3" class="text-right">Sub Total Harga Barang : </th>
                                 <td colspan="3" class="with-btn">
-                                    <input type="text" class="form-control text-right currency" id="sub-total" name="penjualan_tagihan" value="0" autocomplete="off" readonly/>
+                                    <input type="text" class="form-control text-right currency" id="sub-total" name="tagihan" value="0" autocomplete="off" readonly/>
                                 </td>
                                 <td></td>
                             </tr>
@@ -95,11 +95,11 @@
             @endif
             <div class="form-group">
                 <label class="control-label">Bayar</label>
-                <input class="form-control text-right currency" type="text" id="bayar" name="penjualan_bayar" value="{{ old('penjualan_bayar') }}" autocomplete="off" required/>
+                <input class="form-control text-right currency" type="text" id="bayar" name="bayar" value="{{ old('bayar') }}" autocomplete="off" required/>
             </div>
             <div class="form-group">
                 <label class="control-label">Sisa</label>
-                <input class="form-control text-right currency bg-danger text-white" type="text" id="sisa" name="penjualan_sisa" value="{{ old('penjualan_sisa', 0) }}" autocomplete="off" required readonly/>
+                <input class="form-control text-right currency bg-danger text-white" type="text" id="sisa" name="sisa" value="{{ old('sisa', 0) }}" autocomplete="off" required readonly/>
             </div>
         </div>
 
@@ -148,7 +148,7 @@
                 });
 
     $("#jatuh_tempo").on('change', function name() {
-        $("#penjualan_jatuh_tempo").prop('disabled', !$(this).is(':checked'));
+        $("#jatuh_tempo").prop('disabled', !$(this).is(':checked'));
     })
 
     $('.datepicker').datepicker({
@@ -204,8 +204,8 @@
         var satuan = $("#barang" + id + " option:selected").data('satuan') || [];
         $("#satuan" + id + " option").remove();
         satuan.forEach(row => {
-            var select = slct == row['satuan_nama']? "selected": "";
-            $("#satuan" + id).append('<option value="'+row['satuan_harga']+';'+row['satuan_nama']+';'+row['satuan_rasio_dari_utama']+'" data-harga="'+row['satuan_harga']+'" data-rasio="'+row['satuan_rasio_dari_utama']+'" '+select+'>'+row['satuan_nama']+'</option>');
+            var select = slct == row['nama']? "selected": "";
+            $("#satuan" + id).append('<option value="'+row['harga']+';'+row['nama']+';'+row['rasio_dari_utama']+'" data-harga="'+row['harga']+'" data-rasio="'+row['rasio_dari_utama']+'" '+select+'>'+row['nama']+'</option>');
         });
         $("#satuan" + id).selectpicker('refresh');
         harga(id);
@@ -251,7 +251,7 @@
                 })
             }
         });
-        satuan(i, (barang? barang['satuan_nama']: null));
+        satuan(i, (barang? barang['nama']: null));
         sub_total();
         i++;
     }

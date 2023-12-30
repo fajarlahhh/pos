@@ -20,7 +20,7 @@ class BarangController extends Controller
         $jenis = $req->jenis? $req->jenis: 0;
         $konsinyasi = $req->konsinyasi? $req->konsinyasi: 0;
 
-        $data = Barang::with('jenis_barang')->with('satuan_utama')->with('pengguna')->where('barang_nama', 'like', '%'.$req->cari.'%');
+        $data = Barang::with('jenis_barang')->with('satuan_utama')->with('pengguna')->where('nama', 'like', '%'.$req->cari.'%');
 
         if($jenis != 'semua'){
             $data = $data->where('jenis_barang_id', $jenis);
@@ -39,7 +39,7 @@ class BarangController extends Controller
                 break;
         }
 
-        $data = $data->orderBy('barang_nama')->paginate(10);
+        $data = $data->orderBy('nama')->paginate(10);
         $data->appends([$req->cari, $req->tipe, $req->barang_harga_jual]);
         return view('pages.datamaster.barang.index', [
             'data' => $data,
@@ -60,7 +60,7 @@ class BarangController extends Controller
 
     public function cari(Request $req)
     {
-        return Barang::where('barang_nama', 'like', '%'.$req->cari.'%')->with('satuan_utama')->limit(20
+        return Barang::where('nama', 'like', '%'.$req->cari.'%')->with('satuan_utama')->limit(20
         )->get();
     }
 
@@ -87,10 +87,10 @@ class BarangController extends Controller
     {
         $utama = new Satuan();
         $utama->barang_id = $barang;
-        $utama->satuan_id = 0;
-        $utama->satuan_nama = $req->get('satuan_nama');
-        $utama->satuan_harga = str_replace(',', '', $req->get('satuan_harga'));
-        $utama->satuan_rasio_dari_utama = 1;
+        $utama->urutan = 0;
+        $utama->nama = $req->get('nama');
+        $utama->harga = str_replace(',', '', $req->get('harga'));
+        $utama->rasio_dari_utama = 1;
         $utama->utama = 1;
         $utama->save();
 
@@ -98,10 +98,10 @@ class BarangController extends Controller
             foreach ($req->satuan as $index => $row) {
                 $satuan = new Satuan();
                 $satuan->barang_id = $barang;
-                $satuan->satuan_id = $index + 1;
-                $satuan->satuan_nama = $row['satuan_nama'];
-                $satuan->satuan_harga = str_replace(',', '', $row['satuan_harga']);
-                $satuan->satuan_rasio_dari_utama = $row['satuan_rasio_dari_utama'];
+                $satuan->urutan = $index + 1;
+                $satuan->nama = $row['nama'];
+                $satuan->harga = str_replace(',', '', $row['harga']);
+                $satuan->rasio_dari_utama = $row['rasio_dari_utama'];
                 $satuan->utama = 0;
                 $satuan->save();
             }
@@ -111,19 +111,19 @@ class BarangController extends Controller
 	public function simpan(Request $req)
 	{
         $req->validate([
-            'barang_nama' => 'required',
-            'satuan_nama' => 'required',
-            'barang_stok_min' => 'required',
-            'satuan_harga' => 'required',
+            'nama' => 'required',
+            'nama' => 'required',
+            'stok_min' => 'required',
+            'harga' => 'required',
         ]);
 
         try{
             DB::transaction(function () use ($req) {
                 if ($req->get('id')) {
                     $data = Barang::findOrFail($req->get('id'));
-                    $data->barang_nama = $req->get('barang_nama');
-                    $data->barang_stok_min = $req->get('barang_stok_min');
-                    $data->barang_keterangan = $req->get('barang_keterangan');
+                    $data->nama = $req->get('nama');
+                    $data->stok_min = $req->get('stok_min');
+                    $data->keterangan = $req->get('keterangan');
                     $data->stok = $req->get('stok');
                     $data->jenis_barang_id = $req->get('jenis_barang_id');
                     $data->supplier_id = $req->get('supplier_id');
@@ -133,9 +133,9 @@ class BarangController extends Controller
                     toast('Berhasil mengedit data', 'success')->autoClose(2000);
                 }else{
                     $data = new Barang();
-                    $data->barang_nama = $req->get('barang_nama');
-                    $data->barang_stok_min = $req->get('barang_stok_min');
-                    $data->barang_keterangan = $req->get('barang_keterangan');
+                    $data->nama = $req->get('nama');
+                    $data->stok_min = $req->get('stok_min');
+                    $data->keterangan = $req->get('keterangan');
                     $data->stok = $req->get('stok');
                     $data->jenis_barang_id = $req->get('jenis_barang_id');
                     $data->supplier_id = $req->get('supplier_id');

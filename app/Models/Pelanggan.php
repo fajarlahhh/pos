@@ -15,11 +15,10 @@ class Pelanggan extends Model
     use Pengguna;
     //
     protected $table = 'pelanggan';
-    protected $primaryKey = 'pelanggan_id';
 
     public function pengguna()
     {
-        return $this->belongsTo('App\Models\Pengguna', 'pengguna_id', 'pengguna_id');
+        return $this->belongsTo(Pengguna::class);
     }
 
     public function getCreatedAtAttribute($value)

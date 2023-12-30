@@ -14,9 +14,9 @@ class DashboardController extends Controller
 
     public function index(Request $req)
     {
-        $barang_masuk = BarangMasuk::orderBy('barang_masuk_tanggal')->with('supplier')->whereRaw("TIMESTAMPDIFF(day, now(), barang_masuk_tanggal) <= 7")->whereNull('barang_masuk_lunas')->get();
-        $penjualan = Penjualan::orderBy('penjualan_tanggal')->with('pelanggan')->whereNull('penjualan_lunas')->whereRaw("TIMESTAMPDIFF(day, now(), penjualan_tanggal) <= 7")->get();
-        $kadaluarsa = BarangMasukDetail::where('barang_masuk_kadaluarsa', '<=', date('Y-m-d'))->where('check', 0)->orderBy('barang_masuk_kadaluarsa')->whereRaw("TIMESTAMPDIFF(day, now(), barang_masuk_kadaluarsa) <= 7")->get();
+        $barang_masuk = BarangMasuk::orderBy('tanggal')->with('supplier')->whereRaw("TIMESTAMPDIFF(day, now(), tanggal) <= 7")->whereNull('lunas')->get();
+        $penjualan = Penjualan::orderBy('tanggal')->with('pelanggan')->whereNull('lunas')->whereRaw("TIMESTAMPDIFF(day, now(), tanggal) <= 7")->get();
+        $kadaluarsa = BarangMasukDetail::where('kadaluarsa', '<=', date('Y-m-d'))->where('check', 0)->orderBy('kadaluarsa')->whereRaw("TIMESTAMPDIFF(day, now(), kadaluarsa) <= 7")->get();
 
         return view('pages.dashboard.index',[
             'barang_masuk' => $barang_masuk,
@@ -44,7 +44,7 @@ class DashboardController extends Controller
     public function lunas_bm(Request $req)
     {
         BarangMasuk::where('barang_masuk_id', $req->barang_masuk_id)->update([
-            'barang_masuk_lunas' => now()
+            'lunas' => now()
         ]);
         return redirect()->back();
     }
@@ -52,7 +52,7 @@ class DashboardController extends Controller
     public function lunas_penjualan(Request $req)
     {
         Penjualan::where('penjualan_id', $req->penjualan_id)->update([
-            'penjualan_lunas' => now()
+            'lunas' => now()
         ]);
         return redirect()->back();
     }
