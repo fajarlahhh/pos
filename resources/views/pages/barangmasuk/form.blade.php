@@ -42,7 +42,7 @@
                 <select class="form-control selectpicker" name="supplier_id" id="supplier_id" data-live-search="true" data-style="btn-warning" data-width="100%" >
                     <option value="" {{ old('supplier_id') == ''? 'selected': '' }}>-- Pilih Supplier --</option>
                     @foreach($supplier as $row)
-                    <option value="{{ $row->supplier_id }}" {{ old('supplier_id') == $row->supplier_id? 'selected': '' }}>{{ $row->nama }} - {{ $row->alamat }}</option>
+                    <option value="{{ $row->supplier_id }}" {{ old('supplier_id') && old('supplier_id') == $row->supplier_id? 'selected': '' }}>{{ $row->nama }} - {{ $row->alamat }}</option>
                     @endforeach
                 </select>
             </div>

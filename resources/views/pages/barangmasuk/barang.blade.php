@@ -1,6 +1,7 @@
 <tr>
     <td class="with-btn" >
-        <select class="form-control selectpicker  barang" name="barang_masuk[{{ $id }}][barang_id]" onchange="satuan({{ $id }})" id="barang{{ $id }}" title="Nama Barang" data-live-search="true" data-style="btn-aqua" data-size="3" data-width="100%">
+        <select class="form-control selectpicker  barang" name="barang_masuk[{{ $id }}][id]" onchange="satuan({{ $id }})" id="barang{{ $id }}" title="Nama Barang" data-live-search="true" data-style="btn-aqua" data-size="3" data-width="100%">
+            <option value="" selected>-- Pilih Barang --</option>
             @foreach($barang as $row)
             <option value="{{ $row->barang_id }}" data-satuan="{{ $row->satuan_utama? $row->satuan_utama->nama: '' }}" {{ $data && $data['barang_id'] == $row->barang_id? 'selected': '' }}>{{ $row->nama }}</option>
             @endforeach

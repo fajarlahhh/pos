@@ -57,7 +57,7 @@
                                     }
                                 }
                             @endphp
-                            <option value="{{ $row->jenis_barang_id }}" {{ $selected }}>{{ $row->jenis_barang_uraian }}</option>
+                            <option value="{{ $row->jenis_barang_id }}" {{ $selected }}>{{ $row->nama }}</option>
                             @endforeach
                             @php
                                 $selected = '';

@@ -33,7 +33,7 @@
         <div class="panel-body">
             <div class="form-group">
                 <label class="control-label">Jenis Barang</label>
-                <input class="form-control" type="text" name="jenis_barang_uraian" value="{{ old('jenis_barang_uraian')? old('jenis_barang_uraian'): ($aksi == 'Edit'? $data->jenis_barang_uraian: '') }}" autocomplete="off" required/>
+                <input class="form-control" type="text" name="nama" value="{{ old('nama')? old('nama'): ($aksi == 'Edit'? $data->nama: '') }}" autocomplete="off" required/>
             </div>
         </div>
         <div class="panel-footer">

@@ -191,7 +191,7 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `jenis_barang` (
   `jenis_barang_id` bigint(20) NOT NULL,
-  `jenis_barang_uraian` varchar(255) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,

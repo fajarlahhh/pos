@@ -26,7 +26,6 @@
 	$contentClass .= (!empty($contentInverseMode)) ? 'content-inverse-mode ' : '';
 @endphp
 <body class="{{ $bodyClass }}">
-    @livewireStyles
 	@include('includes.component.page-loader')
 
 	<div id="page-container" class="page-container fade page-sidebar-fixed page-header-fixed {{ $pageContainerClass }}">
@@ -48,7 +47,6 @@
 		@include('includes.component.scroll-top-btn')
 
 	</div>
-    @livewireScripts
     @include('sweetalert::alert')
     @include('includes.page-js')
 </body>

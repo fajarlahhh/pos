@@ -34,7 +34,7 @@
                             <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-success" data-width="100%">
                                 <option value="semua" {{ $jenis == 'semua'? 'selected': '' }}>Semua Jenis</option>
                                 @foreach ($jenis_barang as $row)
-                                <option value="{{ $row->jenis_barang_id }}" {{ $jenis == $row->jenis_barang_id? 'selected': '' }}>{{ $row->jenis_barang_uraian }}</option>
+                                <option value="{{ $row->jenis_barang_id }}" {{ $jenis == $row->jenis_barang_id? 'selected': '' }}>{{ $row->nama }}</option>
                                 @endforeach
                             </select>
                         </div>&nbsp;
@@ -91,7 +91,7 @@
                     <td class="align-middle text-center text-nowrap">{{ number_format($row->stok_min) }}</td>
                     <td class="align-middle">{{ $row->satuan_utama? $row->satuan_utama->nama: '' }}</td>
                     <td class="align-middle text-right text-nowrap">{{ number_format($row->satuan_utama? $row->satuan_utama->harga: 0, 2) }}</td>
-                    <td class="align-middle">{{ $row->jenis_barang? $row->jenis_barang->jenis_barang_uraian: "" }}</td>
+                    <td class="align-middle">{{ $row->jenis_barang? $row->jenis_barang->nama: "" }}</td>
                     <td class="align-middle">{{ $row->supplier? $row->supplier->nama: "" }}</td>
                     <td class="align-middle">{{ $row->keterangan }}</td>
                     @role('super-admin|supervisor')

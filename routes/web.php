@@ -134,9 +134,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role_or_permission:super-admin|retur']], function () {
         Route::prefix('retur')->group(function () {
             Route::get('/tambahbarang/{id}', [ReturController::class, 'tambah_barang']);
-            Route::get('/', [ReturController::class, 'index'])->name('barangmasuk');
-            Route::get('/tambah', [ReturController::class, 'tambah'])->middleware(['role:super-admin|user|supervisor'])->name('barangmasuk.tambah');
-            Route::post('/simpan', [ReturController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('barangmasuk.simpan');
+            Route::get('/', [ReturController::class, 'index'])->name('retur');
+            Route::get('/tambah', [ReturController::class, 'tambah'])->middleware(['role:super-admin|user|supervisor'])->name('retur.tambah');
+            Route::post('/simpan', [ReturController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('retur.simpan');
             Route::delete('/hapus', [ReturController::class, 'hapus'])->middleware(['role:super-admin|user|supervisor']);
             Route::patch('/restore', [ReturController::class, 'restore'])->middleware(['role:super-admin|user|supervisor']);
         });

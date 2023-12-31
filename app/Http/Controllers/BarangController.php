@@ -14,19 +14,19 @@ class BarangController extends Controller
 {
     //
     public function index(Request $req)
-	{
-        $tipe = $req->tipe? $req->tipe: 0;
-        $barang = $req->barang? $req->barang: 0;
-        $jenis = $req->jenis? $req->jenis: 0;
-        $konsinyasi = $req->konsinyasi? $req->konsinyasi: 0;
+    {
+        $tipe = $req->tipe ? $req->tipe : 0;
+        $barang = $req->barang ? $req->barang : 0;
+        $jenis = $req->jenis ? $req->jenis : 0;
+        $konsinyasi = $req->konsinyasi ? $req->konsinyasi : 0;
 
-        $data = Barang::with('jenis_barang')->with('satuan_utama')->with('pengguna')->where('nama', 'like', '%'.$req->cari.'%');
+        $data = Barang::with('jenis_barang')->with('satuan_utama')->with('pengguna')->where('nama', 'like', '%' . $req->cari . '%');
 
-        if($jenis != 'semua'){
+        if ($jenis != 'semua') {
             $data = $data->where('jenis_barang_id', $jenis);
         }
 
-        if($konsinyasi != 'semua'){
+        if ($konsinyasi != 'semua') {
             $data = $data->where('supplier_id', $konsinyasi);
         }
 
@@ -60,14 +60,15 @@ class BarangController extends Controller
 
     public function cari(Request $req)
     {
-        return Barang::where('nama', 'like', '%'.$req->cari.'%')->with('satuan_utama')->limit(20
+        return Barang::where('nama', 'like', '%' . $req->cari . '%')->with('satuan_utama')->limit(
+            20
         )->get();
     }
 
-	public function tambah(Request $req)
-	{
+    public function tambah(Request $req)
+    {
         return view('pages.datamaster.barang.form', [
-            'back' => Str::contains(url()->previous(), ['barang/tambah', 'barang/edit'])? '/barang': url()->previous(),
+            'back' => Str::contains(url()->previous(), ['barang/tambah', 'barang/edit']) ? '/barang' : url()->previous(),
             'jenis_barang' => JenisBarang::all(),
             'supplier' => Supplier::all(),
             'data' => [],
@@ -75,9 +76,9 @@ class BarangController extends Controller
         ]);
     }
 
-	public function tambah_satuan(Request $req, $id)
-	{
-        return view('pages.datamaster.barang.satuan',[
+    public function tambah_satuan(Request $req, $id)
+    {
+        return view('pages.datamaster.barang.satuan', [
             'data' => $req->satuan,
             'id' => $id
         ]);
@@ -108,8 +109,8 @@ class BarangController extends Controller
         }
     }
 
-	public function simpan(Request $req)
-	{
+    public function simpan(Request $req)
+    {
         $req->validate([
             'nama' => 'required',
             'nama' => 'required',
@@ -117,70 +118,65 @@ class BarangController extends Controller
             'harga' => 'required',
         ]);
 
-        try{
-            DB::transaction(function () use ($req) {
-                if ($req->get('id')) {
-                    $data = Barang::findOrFail($req->get('id'));
-                    $data->nama = $req->get('nama');
-                    $data->stok_min = $req->get('stok_min');
-                    $data->keterangan = $req->get('keterangan');
-                    $data->stok = $req->get('stok');
-                    $data->jenis_barang_id = $req->get('jenis_barang_id');
-                    $data->supplier_id = $req->get('supplier_id');
-                    $data->save();
-                    Satuan::where('barang_id', $req->get('id'))->delete();
-                    $this->simpan_satuan($req->get('id'), $req);
-                    toast('Berhasil mengedit data', 'success')->autoClose(2000);
-                }else{
-                    $data = new Barang();
-                    $data->nama = $req->get('nama');
-                    $data->stok_min = $req->get('stok_min');
-                    $data->keterangan = $req->get('keterangan');
-                    $data->stok = $req->get('stok');
-                    $data->jenis_barang_id = $req->get('jenis_barang_id');
-                    $data->supplier_id = $req->get('supplier_id');
-                    $data->save();
-                    $this->simpan_satuan($data->barang_id, $req);
-                    toast('Berhasil menambah data', 'success')->autoClose(2000);
-                }
-            });
+        DB::transaction(function () use ($req) {
+            if ($req->get('id')) {
+                $data = Barang::findOrFail($req->get('id'));
+                $data->nama = $req->get('nama');
+                $data->stok_min = $req->get('stok_min');
+                $data->keterangan = $req->get('keterangan');
+                $data->stok = $req->get('stok');
+                $data->jenis_barang_id = $req->get('jenis_barang_id');
+                $data->supplier_id = $req->get('supplier_id');
+                $data->save();
+                Satuan::where('barang_id', $req->get('id'))->delete();
+                $this->simpan_satuan($req->get('id'), $req);
+                toast('Berhasil mengedit data', 'success')->autoClose(2000);
+            } else {
+                $data = new Barang();
+                $data->nama = $req->get('nama');
+                $data->stok_min = $req->get('stok_min');
+                $data->keterangan = $req->get('keterangan');
+                $data->stok = $req->get('stok');
+                $data->jenis_barang_id = $req->get('jenis_barang_id');
+                $data->supplier_id = $req->get('supplier_id');
+                $data->save();
+                $this->simpan_satuan($data->barang_id, $req);
+                toast('Berhasil menambah data', 'success')->autoClose(2000);
+            }
+        });
 
-            return redirect($req->get('redirect')? $req->get('redirect'): 'barang');
-		}catch(\Exception $e){
-            alert()->error('Simpan Data Gagal', $e->getMessage());
-            return redirect()->back()->withInput();
-        }
+        return redirect($req->get('redirect') ? $req->get('redirect') : 'barang');
     }
 
-	public function edit(Request $req)
-	{
+    public function edit(Request $req)
+    {
         $data = Barang::with('satuan_lain')->findOrFail($req->get('id'));
         return view('pages.datamaster.barang.form', [
             'data' => $data,
             'supplier' => Supplier::all(),
             'jenis_barang' => JenisBarang::all(),
-            'back' => Str::contains(url()->previous(), ['barang/tambah', 'barang/edit'])? '/barang': url()->previous(),
+            'back' => Str::contains(url()->previous(), ['barang/tambah', 'barang/edit']) ? '/barang' : url()->previous(),
             'aksi' => 'Edit'
         ]);
     }
 
-	public function hapus(Request $req)
-	{
-		try{
+    public function hapus(Request $req)
+    {
+        try {
             Barang::findOrFail($req->get('id'))->delete();
             toast('Berhasil menghapus data', 'success')->autoClose(2000);
-		}catch(\Exception $e){
+        } catch (\Exception $e) {
             alert()->error('Hapus Data Gagal', $e->getMessage());
-		}
-	}
+        }
+    }
 
-	public function restore(Request $req)
-	{
-		try{
+    public function restore(Request $req)
+    {
+        try {
             Barang::withTrashed()->findOrFail($req->get('id'))->restore();
             toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
-		}catch(\Exception $e){
+        } catch (\Exception $e) {
             alert()->error('Restore Data Gagal', $e->getMessage());
-		}
-	}
+        }
+    }
 }
