@@ -82,21 +82,13 @@ class PelangganController extends Controller
 
     public function hapus(Request $req)
     {
-        try {
             Pelanggan::findOrFail($req->get('id'))->delete();
             toast('Berhasil menghapus data', 'success')->autoClose(2000);
-        } catch (\Exception $e) {
-            alert()->error('Hapus Data Gagal', $e->getMessage());
-        }
     }
 
     public function restore(Request $req)
     {
-        try {
             Pelanggan::withTrashed()->findOrFail($req->get('id'))->restore();
             toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
-        } catch (\Exception $e) {
-            alert()->error('Restore Data Gagal', $e->getMessage());
-        }
     }
 }

@@ -66,8 +66,10 @@
                         <th class="width-70">No.</th>
                         <th>Tanggal</th>
                         <th>Barang</th>
+                        <th>Satuan</th>
                         <th>Qty</th>
                         <th>Harga</th>
+                        <th>Sub Total</th>
                         <th>Keterangan</th>
                         @role('super-admin|supervisor|user')
                             <th class="width-90"></th>
@@ -84,42 +86,22 @@
                             </td>
                             <td class="text-nowrap align-middle">{{ $row->barang->nama }}</td>
                             <td class="text-nowrap align-middle">{{ $row->satuan }}</td>
-                            <td class="text-nowrap align-middle">
-                                {{ $row->jatuh_tempo ? date('d F Y', strtotime($row->jatuh_tempo)) : '' }}</td>
-                            <td class="align-middle">{{ $row->keterangan }}</td>
-                            <td>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>Nama Barang</th>
-                                        <th>Harga</th>
-                                        <th>Diskon (%)</th>
-                                        <th>PPN (%)</th>
-                                        <th>Qty</th>
-                                        <th>Tanggal Kadaluarsa</th>
-                                    </tr>
-                                    @foreach ($row->detail as $det)
-                                        <tr>
-                                            <td class="text-nowrap">{{ $det->barang ? $det->barang->nama : '' }}</td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->harga_barang, 2) }}
-                                            </td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->diskon, 2) }}</td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->harga_pph, 2) }}</td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->qty) }}</td>
-                                            <td class="text-nowrap">{{ $det->kadaluarsa }}</td>
-                                        </tr>
-                                    @endforeach
-                                </table>
+                            <td class="text-nowrap align-middle">{{ $row->qty }}</td>
+                            <td class="text-nowrap align-middle text-right">{{ number_format($row->harga, 2) }}
                             </td>
+                            <td class="text-nowrap align-middle text-right">{{ number_format($row->harga * $row->qty, 2) }}
+                            </td>
+                            <td class="align-middle">{{ $row->keterangan }}</td>
                             @role('super-admin|supervisor|user')
                                 <td class="with-btn-group align-middle" nowrap>
                                     @if ($row->trashed())
                                         @role('super-admin|supervisor')
-                                            <a href="javascript:;" data-id="{{ $row->barang_masuk_id }}"
+                                            <a href="javascript:;" data-id="{{ $row->id }}"
                                                 data-no="{{ $i }}" class="btn-restore btn-sm btn btn-success">
                                                 Restore</a>
                                         @endrole
                                     @else
-                                        <a href="javascript:;" data-id="{{ $row->barang_masuk_id }}"
+                                        <a href="javascript:;" data-id="{{ $row->id }}"
                                             data-no="{{ $i }}" class="btn-hapus btn-sm btn btn-danger"> Hapus</a>
                                     @endif
                                 </td>
@@ -132,6 +114,15 @@
         @include('includes.component.pagination', [
             'pagination' => $data,
         ])
+    </div>
+    <div class="alert alert-info">
+        Total Retur : Rp
+        {{ number_format(
+            $data->sum(function ($q) {
+                return $q->harga * $q->qty;
+            }),
+            2,
+        ) }}
     </div>
 @endsection
 

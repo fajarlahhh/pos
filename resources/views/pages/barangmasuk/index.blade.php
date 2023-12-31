@@ -116,12 +116,12 @@
                                 <td class="with-btn-group align-middle" nowrap>
                                     @if ($row->trashed())
                                         @role('super-admin|supervisor')
-                                            <a href="javascript:;" data-id="{{ $row->barang_masuk_id }}"
+                                            <a href="javascript:;" data-id="{{ $row->id }}"
                                                 data-no="{{ $i }}" class="btn-restore btn-sm btn btn-success">
                                                 Restore</a>
                                         @endrole
                                     @else
-                                        <a href="javascript:;" data-id="{{ $row->barang_masuk_id }}"
+                                        <a href="javascript:;" data-id="{{ $row->id }}"
                                             data-no="{{ $i }}" class="btn-hapus btn-sm btn btn-danger"> Hapus</a>
                                     @endif
                                 </td>

@@ -23,7 +23,7 @@ class Pengguna extends Authenticatable
     protected $keyType = 'string';
 
     protected $fillable = [
-        'pengguna_id', 'sandi'
+        'id', 'sandi'
     ];
 
     protected $hidden = [

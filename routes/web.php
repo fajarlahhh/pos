@@ -156,6 +156,13 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
+    Route::group(['middleware' => ['role_or_permission:super-admin|laporanretur']], function () {
+        Route::prefix('laporanretur')->group(function () {
+            Route::get('/', [LaporanController::class, 'laporanretur'])->name('laporanretur');
+            Route::get('/{cetak}', [LaporanController::class, 'laporanretur'])->name('laporanretur.cetak');
+        });
+    });
+
     Route::group(['middleware' => ['role_or_permission:super-admin|laporanpenjualan']], function () {
         Route::prefix('laporanpenjualan')->group(function () {
             Route::get('/', [LaporanController::class, 'laporanpenjualan'])->name('laporanpenjualan');

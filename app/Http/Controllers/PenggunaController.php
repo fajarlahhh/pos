@@ -25,7 +25,7 @@ class PenggunaController extends Controller
     {
         $tipe = $req->tipe ? $req->tipe : 0;
 
-        $data = Pengguna::where('pengguna_id', 'like', '%' . $req->cari . '%')->where('nama', 'like', '%' . $req->cari . '%');
+        $data = Pengguna::where('id', 'like', '%' . $req->cari . '%')->where('nama', 'like', '%' . $req->cari . '%');
 
         switch ($tipe) {
             case '1':
@@ -129,7 +129,7 @@ class PenggunaController extends Controller
     public function simpan(Request $req)
     {
         $req->validate([
-            'pengguna_id' => 'required',
+            'id' => 'required',
             'nama' => 'required',
             'pengguna_level' => 'required'
         ]);
@@ -140,7 +140,7 @@ class PenggunaController extends Controller
                 if ($req->get('sandi')) {
                     $pengguna->sandi = Hash::make($req->get('sandi'));
                 }
-                $pengguna->pengguna_id = $req->get('pengguna_id');
+                $pengguna->id = $req->get('id');
                 $pengguna->nama = $req->get('nama');
                 $pengguna->save();
                 $pengguna->syncPermissions();
@@ -159,7 +159,7 @@ class PenggunaController extends Controller
             DB::transaction(function () use ($req) {
                 $pengguna = new Pengguna();
                 $pengguna->nama = $req->get('nama');
-                $pengguna->pengguna_id = $req->get('pengguna_id');
+                $pengguna->id = $req->get('id');
                 $pengguna->sandi = Hash::make($req->get('sandi'));
                 $pengguna->save();
                 $pengguna->assignRole($req->get('pengguna_level'));
@@ -223,7 +223,6 @@ class PenggunaController extends Controller
             return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
-        try {
             $pengguna = Pengguna::findOrFail(Auth::id());
             if ($pengguna) {
                 if (!Hash::check($req->get('sandi_lama'), $pengguna->sandi)) {
@@ -246,7 +245,6 @@ class PenggunaController extends Controller
 
     public function ganti_status(Request $req)
     {
-        try {
             $pengguna = Pengguna::findOrFail($req->get('id'));
             $pengguna->pengguna_status = $req->get('status');
             $pengguna->save();
@@ -258,7 +256,6 @@ class PenggunaController extends Controller
 
     public function hapus(Request $req)
     {
-        try {
             $pengguna = Pengguna::findOrFail($req->get('id'));
             $pengguna->delete();
             toast('Berhasil menghapus data', 'success')->autoClose(2000);
@@ -269,7 +266,6 @@ class PenggunaController extends Controller
 
     public function restore(Request $req)
     {
-        try {
             Pengguna::withTrashed()->findOrFail($req->get('id'))->restore();
             toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
         } catch (\Exception $e) {

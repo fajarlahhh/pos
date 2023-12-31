@@ -5165,7 +5165,6 @@ S2.define('select2/defaults',[
       var language = languages[l];
 
       if (typeof language === 'string') {
-        try {
           // Try to load it with the original name
           languageData = Translation.loadPath(language);
         } catch (e) {

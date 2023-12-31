@@ -130,15 +130,15 @@
                                 <div class="btn-group">
                                     @if ($row->trashed())
                                         @role('super-admin')
-                                            <a href="javascript:;" data-id="{{ $row->penjualan_id }}"
+                                            <a href="javascript:;" data-id="{{ $row->id }}"
                                                 data-no="{{ $i }}" class="btn-restore btn-sm btn btn-success">
                                                 Restore</a>
                                         @endrole
                                     @else
-                                        <a href="/penjualan/kwitansi/1/{{ $row->penjualan_id }}" target="_blank"
+                                        <a href="/penjualan/kwitansi/1/{{ $row->id }}" target="_blank"
                                             class="btn-sm btn btn-aqua">Cetak</a>
                                         @role('super-admin')
-                                            <a href="javascript:;" data-id="{{ $row->penjualan_id }}"
+                                            <a href="javascript:;" data-id="{{ $row->id }}"
                                                 data-no="{{ $i }}" class="btn-hapus btn-sm btn btn-danger">
                                                 Hapus</a>
                                         @endrole

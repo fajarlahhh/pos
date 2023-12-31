@@ -107,7 +107,6 @@ class ClipboardAction {
     copyText() {
         let succeeded;
 
-        try {
             succeeded = document.execCommand(this.action);
         }
         catch (err) {

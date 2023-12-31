@@ -57,6 +57,10 @@ return [
             'id' => 'laporanpenjualan',
             'title' => 'Penjualan'
         ],[
+            'url' => '/laporanretur',
+            'id' => 'laporanretur',
+            'title' => 'Retur'
+        ],[
             'url' => '/laporanstokbarang',
             'id' => 'laporanstokbarang',
             'title' => 'Stok Barang'

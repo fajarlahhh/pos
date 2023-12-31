@@ -184,7 +184,6 @@
           enumerable: true,
           configurable: true
         };
-        try {
           objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
         } catch (ex) { // IE 8 doesn't support enumerable:true
           // adding undefined to fight this issue https://github.com/eligrey/classList.js/issues/36
@@ -248,7 +247,6 @@
       'use strict'; // needed to support `apply`/`call` with `undefined`/`null`
       var defineProperty = (function () {
         // IE 8 only supports `Object.defineProperty` on DOM elements
-        try {
           var object = {};
           var $defineProperty = Object.defineProperty;
           var result = $defineProperty(object, object, object) && $defineProperty;

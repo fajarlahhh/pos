@@ -67,9 +67,13 @@ class ReturController extends Controller
     public function simpan(Request $req)
     {
         $req->validate([
-            'tanggal' => 'required'
+            'tanggal' => 'required',
+            'keterangan' => 'required',
+            'barang.*.id' => 'required',
+            'barang.*.harga' => 'required|min:10',
+            'barang.*.qty' => 'required|min:1'
         ]);
-
+        
         DB::transaction(function () use ($req) {
             foreach ($req->retur as $index => $row) {
                 $retur = new Retur();
@@ -80,6 +84,7 @@ class ReturController extends Controller
                 $retur->tanggal = Carbon::parse($req->get('tanggal'))->format('Y-m-d');
                 $retur->satuan = $row['satuan'];
                 $retur->keterangan = $req->keterangan;
+                $retur->pengguna_id = auth()->id();
                 $retur->save();
             }
         });
@@ -93,21 +98,13 @@ class ReturController extends Controller
 
     public function hapus(Request $req)
     {
-        try {
             Retur::findOrFail($req->get('id'))->delete();
             toast('Berhasil menghapus data', 'success')->autoClose(2000);
-        } catch (\Exception $e) {
-            alert()->error('Hapus Data Gagal', $e->getMessage());
-        }
     }
 
     public function restore(Request $req)
     {
-        try {
             Retur::withTrashed()->findOrFail($req->get('id'))->restore();
             toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
-        } catch (\Exception $e) {
-            alert()->error('Restore Data Gagal', $e->getMessage());
-        }
     }
 }

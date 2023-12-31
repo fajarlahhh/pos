@@ -70,19 +70,19 @@
                         @foreach ($data as $index => $row)
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td>{{ $row->pengguna_id }}</td>
+                                <td>{{ $row->id }}</td>
                                 <td class="text-nowrap">{{ $row->nama }}</td>
                                 <td>{{ ucFirst($row->getRoleNames()[0]) }}</td>
                                 @role('super-admin|user')
                                     <td class="with-btn-group align-middle" nowrap>
-                                        @if ($row->pengguna_id != 'administrator')
+                                        @if ($row->id != 'administrator')
                                             <div class="btn-group">
                                                 @if ($row->trashed())
-                                                    <a href="javascript:;" data-id="{{ $row->pengguna_id }}"
+                                                    <a href="javascript:;" data-id="{{ $row->id }}"
                                                         data-no="{{ $i }}"
                                                         class="btn btn-danger btn-sm btn-restore"> Restore</a>
                                                 @else
-                                                    <a href="{{ route('pengguna.edit', ['id' => $row->pengguna_id]) }}"
+                                                    <a href="{{ route('pengguna.edit', ['id' => $row->id]) }}"
                                                         class="btn btn-aqua btn-sm"> Edit</a>
                                                     <a href="#"
                                                         class="btn btn-white btn-sm dropdown-toggle width-30 no-caret"
@@ -90,7 +90,7 @@
                                                         <span class="caret"></span>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="javascript:;" data-id="{{ $row->pengguna_id }}"
+                                                        <a href="javascript:;" data-id="{{ $row->id }}"
                                                             data-no="{{ $i }}" class="btn-hapus dropdown-item">
                                                             Hapus</a>
                                                     </div>

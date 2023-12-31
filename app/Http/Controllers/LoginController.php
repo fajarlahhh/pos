@@ -16,7 +16,7 @@ class LoginController extends Controller
         ]);
 
         $remember = ($req->remember == 'on') ? true : false;
-        if (Auth::attempt(['pengguna_id' => $req->uid, 'password' => $req->password], $remember)) {
+        if (Auth::attempt(['id' => $req->uid, 'password' => $req->password], $remember)) {
             return redirect()->intended('dashboard')
             ->with([
                 'gritter_judul' => 'Selamat datang '.Auth::user()->nama,

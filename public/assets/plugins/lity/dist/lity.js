@@ -166,7 +166,6 @@
     function inlineHandler(target, instance) {
         var el, placeholder, hasHideClass;
 
-        try {
             el = $(target);
         } catch (e) {
             return false;

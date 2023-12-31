@@ -33,14 +33,14 @@
                 <input type="hidden" name="redirect" value="{{ $back }}">
                 <div class="row">
                     @if ($aksi == 'Edit')
-                        <input type="hidden" name="ID" value="{{ $data->pengguna_id }}">
+                        <input type="hidden" name="ID" value="{{ $data->id }}">
                     @endif
                     <div class="col-md-5">
                         <div class="form-group">
                             <label class="control-label">ID</label>
-                            <input class="form-control" type="text" name="pengguna_id"
-                                value="{{ old('pengguna_id') ? old('pengguna_id') : ($aksi == 'Edit' ? $data->pengguna_id : '') }}"
-                                autocomplete="off" id="pengguna_id" data-parsley-minlength="2" required />
+                            <input class="form-control" type="text" name="id"
+                                value="{{ old('id') ? old('id') : ($aksi == 'Edit' ? $data->id : '') }}"
+                                autocomplete="off" id="id" data-parsley-minlength="2" required />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Nama</label>

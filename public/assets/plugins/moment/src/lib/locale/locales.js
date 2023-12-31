@@ -72,7 +72,6 @@ function loadLocale(name) {
         module &&
         module.exports
     ) {
-        try {
             oldLocale = globalLocale._abbr;
             aliasedRequire = require;
             aliasedRequire('./locale/' + name);

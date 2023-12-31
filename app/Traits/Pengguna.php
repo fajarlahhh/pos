@@ -11,7 +11,7 @@ trait Pengguna
     {
         if (auth()->check()) {
             static::creating(function($model){
-                $model->pengguna_id = auth()->id();
+                $model->id = auth()->id();
             });
         }
     }

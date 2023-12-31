@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pbf;
+use App\Models\Retur;
 use App\Models\Barang;
 use App\Models\Dokter;
 use App\Models\Penjualan;
@@ -61,6 +62,20 @@ class LaporanController extends Controller
             'tahun' => $tahun,
             'bulan' => $bulan,
             'pembayaran' => $pembayaran
+        ]);
+    }
+
+    public function laporanretur(Request $req, $cetak = null)
+    {
+        $bulan = $req->bulan?:date('m');
+        $tahun = $req->tahun?:date('Y');
+
+        $data = Retur::with('barang')->whereRaw(DB::raw("year(tanggal)=$tahun"))->whereRaw(DB::raw("month(tanggal)=$bulan"))->get();
+        return view('pages.laporan.laporanretur.index', [
+            'data' => $data,
+            'cetak' => $cetak,
+            'tahun' => $tahun,
+            'bulan' => $bulan,
         ]);
     }
 

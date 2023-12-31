@@ -239,7 +239,6 @@ var wysihtml5 = {
         el.appendChild(document.createElement("span"));
         var slice = [].slice;
         var toArray;
-        try {
             if (slice.call(el.childNodes, 0)[0].nodeType == 1) {
                 toArray = function(arrayLike) {
                     return slice.call(arrayLike, 0);
@@ -1381,7 +1380,6 @@ var wysihtml5 = {
         // Test the browser's innerHTML support to decide how to implement createContextualFragment
         var styleEl = document.createElement("style");
         var htmlParsingConforms = false;
-        try {
             styleEl.innerHTML = "<b>x</b>";
             htmlParsingConforms = (styleEl.firstChild.nodeType == 3); // Opera incorrectly creates an element node
         } catch (e) {
@@ -6948,12 +6946,10 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       try { object[property] = value; } catch(e) {}
 
       try { object.__defineGetter__(property, function() { return value; }); } catch(e) {}
-      if (setter) {
-        try { object.__defineSetter__(property, function() {}); } catch(e) {}
+      if (setter) { object.__defineSetter__(property, function() {}); } catch(e) {}
       }
 
       if (!wysihtml5.browser.crashesWhenDefineProperty(property)) {
-        try {
           var config = {
             get: function() { return value; }
           };
@@ -8614,8 +8610,7 @@ wysihtml5.quirks.ensureProperClearing = (function() {
           isBlockElement  = (displayStyle === "block" || displayStyle === "list-item");
 
       if (isEmpty && isElement && canHaveHTML && !avoidInvisibleSpace) {
-        // Make sure that caret is visible in node by inserting a zero width no breaking space
-        try { node.innerHTML = wysihtml5.INVISIBLE_SPACE; } catch(e) {}
+        // Make sure that caret is visible in node by inserting a zero width no breaking space node.innerHTML = wysihtml5.INVISIBLE_SPACE; } catch(e) {}
       }
 
       if (canHaveHTML) {
@@ -8837,7 +8832,6 @@ wysihtml5.quirks.ensureProperClearing = (function() {
       if (!sel) {
         method();
       } else {
-        try {
           method();
         } catch(e) {
           setTimeout(function() { throw e; }, 0);
@@ -8986,7 +8980,6 @@ wysihtml5.quirks.ensureProperClearing = (function() {
         if (nodeOptions.cssStyle) {
           node.setAttribute('style', nodeOptions.cssStyle);
         }
-        try {
           // This only works when the range boundaries are not overlapping other elements
           ranges[i].surroundContents(node);
           this.selectNode(node);
@@ -9112,7 +9105,6 @@ wysihtml5.quirks.ensureProperClearing = (function() {
       rangeTop += 1;
 
       for (i=-10; i<scrollWidth; i+=2) {
-        try {
           range.moveToPoint(i, rangeTop);
           break;
         } catch(e1) {}
@@ -9123,7 +9115,6 @@ wysihtml5.quirks.ensureProperClearing = (function() {
       rangeBottom = rangeTop;
       rangeEnd = this.doc.selection.createRange();
       for (j=scrollWidth; j>=0; j--) {
-        try {
           rangeEnd.moveToPoint(j, rangeBottom);
           break;
         } catch(e2) {}
@@ -9865,8 +9856,7 @@ wysihtml5.quirks.ensureProperClearing = (function() {
           isEmpty         = (content === "" || content === wysihtml5.INVISIBLE_SPACE);
 
       if (isEmpty && isElement && canHaveHTML) {
-        // Make sure that caret is visible in node by inserting a zero width no breaking space
-        try { node.innerHTML = wysihtml5.INVISIBLE_SPACE; } catch(e) {}
+        // Make sure that caret is visible in node by inserting a zero width no breaking space node.innerHTML = wysihtml5.INVISIBLE_SPACE; } catch(e) {}
       }
       range.selectNodeContents(node);
       if (isEmpty && isElement) {
@@ -13338,7 +13328,6 @@ wysihtml5.views.View = Base.extend(
       this.container.style.display = "";
       this.fire("show");
       if (firstField && !elementToChange) {
-        try {
           firstField.focus();
         } catch(e) {}
       }

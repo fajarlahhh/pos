@@ -57,7 +57,8 @@
             <div class="panel-body table-responsive">
             @else
                 <div class="text-center">
-                    <h3>POS <br>
+                    <h3>{{ config('app.company') }} <br>
+                        <small>{{ config('app.address') }}</small><br>
                         <small>LAPORAN STOK PER {{ strtoupper(date('d M Y h:m:s')) }}</small>
                     </h3>
                 </div>
