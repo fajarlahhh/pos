@@ -3,7 +3,6 @@
 @section('title', ' | Tambah Retur')
 
 @push('css')
-    <link href="/assets/plugins/parsleyjs/src/parsley.css" rel="stylesheet" />
     <link href="/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
     <link href="/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 @endpush
@@ -38,19 +37,20 @@
                 <div class="form-group">
                     <label class="control-label">Pelanggan</label>
                     <select class="form-control selectpicker" name="pelanggan_id" id="pelanggan_id" data-live-search="true"
-                        data-style="btn-warning" data-width="100%">
+                        data-style="btn-warning" data-width="100%" >
                         <option value="" {{ old('pelanggan_id') == '' ? 'selected' : '' }}>-- Pilih Pelanggan --
                         </option>
                         @foreach ($pelanggan as $row)
                             <option value="{{ $row->pelanggan_id }}"
-                                {{ old('pelanggan_id') && old('pelanggan_id') == $row->pelanggan_id ? 'selected' : '' }}>{{ $row->nama }} -
+                                {{ old('pelanggan_id') && old('pelanggan_id') == $row->pelanggan_id ? 'selected' : '' }}>
+                                {{ $row->nama }} -
                                 {{ $row->alamat }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Keterangan</label>
-                    <textarea class="form-control" rows="3" name="keterangan">{{ old('keterangan') }}</textarea>
+                    <textarea class="form-control" rows="3" name="keterangan" required>{{ old('keterangan') }}</textarea>
                 </div>
                 <div class="note bg-grey-transparent-5">
                     <div class="note-content table-responsive p-l-5 p-r-5">
@@ -120,7 +120,7 @@
         var i = 0;
 
         var barang = @php
-            echo json_encode(array_values(old('retur', [])), JSON_NUMERIC_CHECK);
+            echo json_encode(array_values(old('barang', [])), JSON_NUMERIC_CHECK);
         @endphp || []
 
         barang.forEach(barang => {
@@ -140,7 +140,7 @@
 
         function satuan(id) {
             var satuan = $("#barang" + id + " option:selected").data('satuan');
-            $("#barang" + id).closest('tr').find('.satuan').val(satuan);
+            $("#barang" + id).closest('tr').find('#satuan' + id).val(satuan);
         }
 
         function init_hitungan() {

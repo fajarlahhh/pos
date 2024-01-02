@@ -65,12 +65,12 @@
                 <thead>
                     <tr>
                         <th class="width-70">No.</th>
-                        <th>Waktu Input</th>
+                        <th>Barang</th>
                         <th>No. Faktur</th>
                         <th>Supplier</th>
                         <th>Jatuh Tempo</th>
                         <th>Keterangan</th>
-                        <th class="text-center">Barang</th>
+                        <th>Barang</th>
                         @role('super-admin|supervisor|user')
                             <th class="width-90"></th>
                         @endrole
@@ -87,27 +87,21 @@
                             <td class="text-nowrap align-middle">{{ $row->faktur }}</td>
                             <td class="text-nowrap align-middle">{{ $row->supplier ? $row->supplier->nama : '' }}</td>
                             <td class="text-nowrap align-middle">
-                                {{ $row->jatuh_tempo ? date('d F Y', strtotime($row->jatuh_tempo)) : '' }}</td>
+                                {{ $row->jatuh_tempo ? date('d F Y', strtotime($row->jatuh_tempo)) : 'Lunas' }}</td>
                             <td class="align-middle">{{ $row->keterangan }}</td>
                             <td>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Nama Barang</th>
                                         <th>Harga</th>
-                                        <th>Diskon (%)</th>
-                                        <th>PPN (%)</th>
                                         <th>Qty</th>
-                                        <th>Tanggal Kadaluarsa</th>
                                     </tr>
                                     @foreach ($row->detail as $det)
                                         <tr>
                                             <td class="text-nowrap">{{ $det->barang ? $det->barang->nama : '' }}</td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->harga_barang, 2) }}
+                                            <td class="text-nowrap text-right">{{ number_format($det->harga, 2) }}
                                             </td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->diskon, 2) }}</td>
-                                            <td class="text-nowrap text-right">{{ number_format($det->harga_pph, 2) }}</td>
                                             <td class="text-nowrap text-right">{{ number_format($det->qty) }}</td>
-                                            <td class="text-nowrap">{{ $det->kadaluarsa }}</td>
                                         </tr>
                                     @endforeach
                                 </table>
@@ -116,13 +110,13 @@
                                 <td class="with-btn-group align-middle" nowrap>
                                     @if ($row->trashed())
                                         @role('super-admin|supervisor')
-                                            <a href="javascript:;" data-id="{{ $row->id }}"
-                                                data-no="{{ $i }}" class="btn-restore btn-sm btn btn-success">
+                                            <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}"
+                                                class="btn-restore btn-sm btn btn-success">
                                                 Restore</a>
                                         @endrole
                                     @else
-                                        <a href="javascript:;" data-id="{{ $row->id }}"
-                                            data-no="{{ $i }}" class="btn-hapus btn-sm btn btn-danger"> Hapus</a>
+                                        <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}"
+                                            class="btn-hapus btn-sm btn btn-danger"> Hapus</a>
                                     @endif
                                 </td>
                             @endrole

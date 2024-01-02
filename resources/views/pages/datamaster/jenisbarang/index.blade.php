@@ -70,14 +70,14 @@
                     <td class="with-btn-group align-middle" nowrap>
                         <div class="btn-group">
                             @if ($row->trashed())
-                            <a href="javascript:;" data-id="{{ $row->jenis_barang_id }}" data-no="{{ $i }}" class="btn btn-danger btn-sm btn-restore"> Restore</a>
+                            <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}" class="btn btn-danger btn-sm btn-restore"> Restore</a>
                             @else
-                            <a href="{{ route('jenisbarang.edit', array('id' => $row->jenis_barang_id)) }}" class="btn btn-aqua btn-sm"> Edit</a>
+                            <a href="{{ route('jenisbarang.edit', array('id' => $row->id)) }}" class="btn btn-aqua btn-sm"> Edit</a>
                             <a href="#" class="btn btn-white btn-sm dropdown-toggle width-30 no-caret" data-toggle="dropdown">
                             <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a href="javascript:;" data-id="{{ $row->jenis_barang_id }}" data-no="{{ $i }}" class="btn-hapus dropdown-item" > Hapus</a>
+                                <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}" class="btn-hapus dropdown-item" > Hapus</a>
                             </div>
                             @endif
                         </div>

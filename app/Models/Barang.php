@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Traits\Pengguna;
+use App\Traits\PenggunaTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,23 +12,13 @@ class Barang extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use Pengguna;
+    use PenggunaTrait;
     //
     protected $table = 'barang';
 
     public function jenis_barang()
     {
         return $this->belongsTo(JenisBarang::class);
-    }
-
-    public function satuan_utama()
-    {
-        return $this->hasOne(Satuan::class)->where('utama', 1);
-    }
-
-    public function satuan_lain()
-    {
-        return $this->hasMany(Satuan::class)->where('utama', 0);
     }
 
     public function barang_masuk()
@@ -41,16 +31,9 @@ class Barang extends Model
         return $this->hasMany(StokAwal::class);
     }
 
-    public function penjualan()
+    public function penjualan_detail()
     {
-        return $this->hasMany(PenjualanDetail::class)->whereHas('penjualan', function($q){
-            $q->where('deleted_at', NULL);
-        });
-    }
-
-    public function satuan_semua()
-    {
-        return $this->hasMany(Satuan::class)->orderBy('utama', 'desc');
+        return $this->hasMany(PenjualanDetail::class);
     }
 
     public function supplier()

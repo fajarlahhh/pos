@@ -50,13 +50,6 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|biaya']], function () {
-        Route::prefix('biaya')->group(function () {
-            Route::get('/', [BiayaController::class, 'index'])->name('biaya');
-            Route::post('/simpan', [BiayaController::class, 'simpan'])->middleware(['role:super-admin|user|supervisor'])->name('biaya.simpan');
-        });
-    });
-
     Route::group(['middleware' => ['role_or_permission:super-admin|postingstok']], function () {
         Route::prefix('postingstok')->group(function () {
             Route::get('/', [PostingstokController::class, 'index'])->name('postingstok');

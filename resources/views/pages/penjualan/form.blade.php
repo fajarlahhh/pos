@@ -31,8 +31,8 @@
             @csrf
             <div class="panel-body">
                 <div class="form-group">
-                    <label class="control-label">Keterangan (Nama)</label>
-                    <textarea class="form-control" rows="3" name="keterangan" required>{{ old('keterangan') }}</textarea>
+                    <label class="control-label">Keterangan</label>
+                    <textarea class="form-control" rows="3" name="keterangan">{{ old('keterangan') }}</textarea>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Pelanggan</label>
@@ -42,7 +42,8 @@
                         </option>
                         @foreach ($pelanggan as $row)
                             <option value="{{ $row->pelanggan_id }}"
-                                {{ old('pelanggan_id') == $row->pelanggan_id ? 'selected' : '' }}>{{ $row->nama }} -
+                                {{ old('pelanggan_id') && old('pelanggan_id') == $row->pelanggan_id ? 'selected' : '' }}>
+                                {{ $row->nama }} -
                                 {{ $row->alamat }}</option>
                         @endforeach
                     </select>
@@ -56,8 +57,9 @@
                                     value="1">
                             </div>
                         </div>
-                        <input type="text" readonly class="form-control datepicker" id="jatuh_tempo" name="jatuh_tempo"
-                            value="{{ date('d M Y', strtotime(old('jatuh_tempo', now()))) }}" required disabled />
+                        <input type="text" readonly class="form-control datepicker" id="tanggal_jatuh_tempo"
+                            name="tanggal_jatuh_tempo"
+                            value="{{ date('d M Y', strtotime(old('tanggal_jatuh_tempo', now()))) }}" required disabled />
                     </div>
                 </div>
                 <div class="note bg-grey-transparent-5">
@@ -69,7 +71,6 @@
                                     <th>Satuan</th>
                                     <th>Harga</th>
                                     <th>Qty</th>
-                                    <th>Diskon</th>
                                     <th>Total</th>
                                     <th class="width-10"></th>
                                 </tr>
@@ -78,11 +79,28 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="3" class="text-right">Sub Total Harga Barang : </th>
-                                    <td colspan="3" class="with-btn">
+                                    <td colspan="4" class="text-right">Sub Total : </td>
+                                    <td class="with-btn">
                                         <input type="text" class="form-control text-right currency" id="sub-total"
-                                            name="tagihan" value="0" autocomplete="off" readonly />
+                                            name="sub_total" value="0" autocomplete="off" readonly />
                                     </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Diskon</td>
+                                    <td class="with-btn">
+                                        <input class="form-control text-right currency diskon" type="text" id="diskon"
+                                            name="diskon" value="{{ old('diskon') }}" autocomplete="off" />
+                                    </td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <th colspan="4" class="text-right">Tagihan : </th>
+                                    <th lass="with-btn">
+                                        <input type="text" class="form-control text-right currency f-w-700"
+                                            id="tagihan" name="tagihan" value="0" autocomplete="off" readonly />
+                                    </th>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -117,7 +135,7 @@
 
             <div class="panel-footer">
                 @role('super-admin|user')
-                    <input type="submit" value="Simpan" class="btn btn-sm btn-success m-r-3" />
+                    <input type="submit" id="submit" value="Simpan" class="btn btn-sm btn-success m-r-3" />
                 @endrole
                 <a href="/penjualan/data" class="btn btn-sm btn-primary">Data Penjualan</a>
                 <div class="pull-right">
@@ -131,7 +149,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Nota Pembelian</h4>
+                    <h4 class="modal-title">Nota</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div id="modal-detail"></div>
@@ -153,6 +171,15 @@
         </script>
     @endif
     <script>
+        $(document).ready(function() {
+            $(window).keydown(function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
         var i = 0;
         AutoNumeric.multiple('.currency', {
             modifyValueOnWheel: false,
@@ -160,7 +187,7 @@
         });
 
         $("#jatuh_tempo").on('change', function name() {
-            $("#jatuh_tempo").prop('disabled', !$(this).is(':checked'));
+            $("#tanggal_jatuh_tempo").prop('disabled', !$(this).is(':checked'));
         })
 
         $('.datepicker').datepicker({
@@ -173,27 +200,41 @@
             echo json_encode(old('barang') ? array_values(old('barang')) : [], JSON_NUMERIC_CHECK);
         @endphp;
 
-        barang.forEach(brg => {
-            tambah_barang(brg);
-        });
 
         $("#bayar").on('keyup change', function() {
             bayar();
         });
 
+        $("#diskon").on('keyup change', function() {
+            hitung_diskon();
+        });
+
         function bayar() {
             var bayar = parseFloat($("#bayar").val().split(',').join('') || 0);
-            var tagihan = parseFloat($("#sub-total").val().split(',').join('') || 0);
+            var tagihan = parseFloat($("#tagihan").val().split(',').join('') || 0);
             AutoNumeric.getAutoNumericElement('#sisa').set(bayar - tagihan > 0 ? bayar - tagihan : 0);
+
+            if (tagihan > bayar) {
+                $("#submit").hide();
+            } else {
+                $("#submit").show();
+            }
+        };
+
+        function hitung_diskon() {
+            var sub_total = parseFloat($("#sub-total").val().split(',').join('') || 0);
+            var diskon = parseFloat($("#diskon").val() !== '' ? $("#diskon").val().split(',').join('') : 0);
+            AutoNumeric.getAutoNumericElement('#tagihan').set(sub_total - diskon > 0 ? sub_total - diskon : 0);
+            bayar();
         };
 
         function total_harga_barang(id) {
             var qty = $("#qty" + id).val() || 0;
-            var harga = parseFloat($("#harga" + id).val().split(',').join('') || 0);
-            var diskon = parseFloat($("#diskon" + id).val().split(',').join('') || 0);
+            var harga = parseFloat($("#harga" + id).val() !== undefined ? $("#harga" + id).val().split(',').join('') : 0);
 
-            AutoNumeric.getAutoNumericElement('#total' + id).set((harga - diskon) * (qty ? qty : 0));
+            AutoNumeric.getAutoNumericElement('#total' + id).set(harga * qty);
             sub_total();
+            // hitung_diskon();
         }
 
         function sub_total() {
@@ -203,26 +244,17 @@
                     sub_total += parseFloat(this.value.split(',').join('') || 0);
             });
             AutoNumeric.getAutoNumericElement('#sub-total').set(sub_total);
+            hitung_diskon();
             bayar();
         }
 
-        function harga(id) {
-            var harga = $("#satuan" + id + " option:selected").data('harga') || 0;
-            AutoNumeric.getAutoNumericElement('#harga' + id).set(harga);
+        function set_satuan_harga(id, slct = null) {
+            $("#satuan" + id).val($("#barang" + id + " option:selected").data('satuan'));
+            var harga = parseFloat($("#barang" + id + " option:selected").data('harga'));
+            AutoNumeric.getAutoNumericElement(
+                    '#harga' + id) !== null ? AutoNumeric.getAutoNumericElement('#harga' + id)
+                .set(harga) : 0;
             total_harga_barang(id);
-        }
-
-        function satuan(id, slct = null) {
-            var satuan = $("#barang" + id + " option:selected").data('satuan') || [];
-            $("#satuan" + id + " option").remove();
-            satuan.forEach(row => {
-                var select = slct == row['nama'] ? "selected" : "";
-                $("#satuan" + id).append('<option value="' + row['harga'] + ';' + row['nama'] + ';' + row[
-                    'rasio_dari_utama'] + '" data-harga="' + row['harga'] + '" data-rasio="' + row[
-                    'rasio_dari_utama'] + '" ' + select + '>' + row['nama'] + '</option>');
-            });
-            $("#satuan" + id).selectpicker('refresh');
-            harga(id);
         }
 
         function tambah_barang(barang = null) {
@@ -253,11 +285,6 @@
                         modifyValueOnWheel: false,
                         minimumValue: "0"
                     });
-
-                    new AutoNumeric('.currency' + i++, {
-                        modifyValueOnWheel: false,
-                        minimumValue: "0"
-                    });
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     Swal.fire({
@@ -267,7 +294,6 @@
                     })
                 }
             });
-            satuan(i, (barang ? barang['nama'] : null));
             sub_total();
             i++;
         }

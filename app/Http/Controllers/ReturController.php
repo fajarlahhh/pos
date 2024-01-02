@@ -8,6 +8,7 @@ use App\Models\Barang;
 use App\Models\Pelanggan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PenjualanDetail;
 use Illuminate\Support\Facades\DB;
 
 class ReturController extends Controller
@@ -49,7 +50,7 @@ class ReturController extends Controller
     {
         return view('pages.retur.form', [
             'pelanggan' => Pelanggan::all(),
-            'retur' => [],
+            'data_barang' => [],
             'banyak' => $req->jumlah,
             'back' => Str::contains(url()->previous(), ['retur/tambah', 'retur/edit']) ? '/retur' : url()->previous()
         ]);
@@ -58,7 +59,7 @@ class ReturController extends Controller
     public function tambah_barang(Request $req, $id)
     {
         return view('pages.retur.barang', [
-            'barang' => Barang::with('satuan_utama')->get(),
+            'data_barang' => Barang::whereHas('penjualan_detail')->get(),
             'data' => $req->barang,
             'id' => $id
         ]);
@@ -70,41 +71,51 @@ class ReturController extends Controller
             'tanggal' => 'required',
             'keterangan' => 'required',
             'barang.*.id' => 'required',
-            'barang.*.harga' => 'required|min:10',
+            'barang.*.harga' => 'required',
             'barang.*.qty' => 'required|min:1'
         ]);
-        
+        $gagal = false;
         DB::transaction(function () use ($req) {
-            foreach ($req->retur as $index => $row) {
-                $retur = new Retur();
-                $retur->barang_id = $row['id'];
-                $retur->pelanggan_id = $req->pelanggan_id;
-                $retur->qty = $row['qty'];
-                $retur->harga = str_replace(',', '', $row['harga']);
-                $retur->tanggal = Carbon::parse($req->get('tanggal'))->format('Y-m-d');
-                $retur->satuan = $row['satuan'];
-                $retur->keterangan = $req->keterangan;
-                $retur->pengguna_id = auth()->id();
-                $retur->save();
+            foreach ($req->barang as $index => $row) {
+                if (PenjualanDetail::where('barang_id', $row['id'])->sum('qty') >= $row['qty']) {
+                    $retur = new Retur();
+                    $retur->barang_id = $row['id'];
+                    $retur->pelanggan_id = $req->pelanggan_id;
+                    $retur->qty = $row['qty'];
+                    $retur->harga = str_replace(',', '', $row['harga']);
+                    $retur->tanggal = Carbon::parse($req->get('tanggal'))->format('Y-m-d');
+                    $retur->satuan = $row['satuan'];
+                    $retur->keterangan = $req->keterangan;
+                    $retur->pengguna_id = auth()->id();
+                    $retur->save();
+                } else {
+                    $gagal = true;
+                }
             }
         });
+        if ($gagal == false) {
 
-        toast('Berhasil menambah data', 'success')->autoClose(2000);
-        if ($req->banyak == 1)
+            toast('Berhasil menambah data', 'success')->autoClose(2000);
+            if ($req->banyak == 1)
+                return redirect('retur/tambah?jumlah=banyak');
+            else
+                return redirect($req->get('redirect') ? $req->get('redirect') : 'retur');
+        } else {
+
+            toast('Gagal mendambah data, jumlah yg diretur lebih besar dari yang keluar', 'success')->autoClose(2000);
             return redirect('retur/tambah?jumlah=banyak');
-        else
-            return redirect($req->get('redirect') ? $req->get('redirect') : 'retur');
+        }
     }
 
     public function hapus(Request $req)
     {
-            Retur::findOrFail($req->get('id'))->delete();
-            toast('Berhasil menghapus data', 'success')->autoClose(2000);
+        Retur::findOrFail($req->get('id'))->delete();
+        toast('Berhasil menghapus data', 'success')->autoClose(2000);
     }
 
     public function restore(Request $req)
     {
-            Retur::withTrashed()->findOrFail($req->get('id'))->restore();
-            toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
+        Retur::withTrashed()->findOrFail($req->get('id'))->restore();
+        toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
     }
 }

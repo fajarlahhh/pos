@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Traits\Pengguna;
+use App\Traits\PenggunaTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +12,7 @@ class JenisBarang extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use Pengguna;
+    use PenggunaTrait;
     //
     protected $table = 'jenis_barang';
 

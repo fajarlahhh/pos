@@ -24,44 +24,50 @@
 @endif
 <div class="modal-body" style="font-family: Arial, sans-serif !important; font-size: 22px">
     <div class="text-center">
-        <h2>UD LOMBOK FROZEN<br>
-            <small>Jl. Barcelona V 214 Graha Royal Gunung Sari<br>
-                Telp. 085337755533</small>
+        <h2>{{ config('app.company') }} <br>
+            <small>{{ config('app.address') }}</small><br>
+            <small>Telp. {{ config('app.contact') }}</small>
         </h2>
     </div>
     <br>
     <br>
+    <div class="row">
+        <div class="col-md-6 f-s-12">
+            ID : {{ $data->id }}
+        </div>
+        <div class="col-md-6 f-s-12">
+            <div class="float-right">Tgl. Nota : {{ $data->tanggal }}</div>
+        </div>
+    </div>
     <div class="table-responsive">
-        ID : {{ $data->penjualan_id }}
-        <div class="float-right">Tgl. Nota : {{ $data->tanggal }}</div>
         <table class="table">
             <tr>
-                <th class="width-70 p-0">No.</th>
-                <th class="p-0">Barang</th>
-                <th class="width-70 p-0">Qty</th>
-                <th class="width-150 p-0">Harga</th>
+                <th class="width-70 f-s-12">No.</th>
+                <th class="f-s-12">Barang</th>
+                <th class="width-70 f-s-12">Qty</th>
+                <th class="width-150 f-s-12">Harga</th>
             </tr>
             @foreach ($data->detail as $index => $row)
                 <tr>
-                    <td class="p-0">
-                        {{ ++$index }}
+                    <td class="f-s-12">
+                        {{ $index + 1 }}
                     </td>
-                    <td class="p-0">
+                    <td class="f-s-12">
                         {{ $row->barang->nama }}
                     </td>
-                    <td class="p-0">
+                    <td class="f-s-12">
                         {{ number_format($row->qty) }}
                     </td>
-                    <td class="text-right p-0">
+                    <td class="text-right f-s-12">
                         {{ number_format($row->total, 2) }}
                     </td>
                 </tr>
             @endforeach
             <tr>
-                <th colspan="3" class="text-right p-0">Total :</th>
-                <td class="text-right p-0">
+                <th colspan="3" class="text-right f-s-12">Total :</th>
+                <td class="text-right f-s-12">
                     {{ number_format($data->detail->sum('total'), 2) }}
-                    </th>
+                </td>
             </tr>
         </table>
     </div>
@@ -77,7 +83,7 @@
 @if ($cetak == 0)
     <div class="modal-footer">
         <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-        <a href="/penjualan/kwitansi/1/{{ $data->penjualan_id }}" class="btn btn-success" target="_blank"><i
+        <a href="/penjualan/kwitansi/1/{{ $data->id }}" class="btn btn-success" target="_blank"><i
                 class="fas fa-print"></i> Cetak</a>
     </div>
 @endif

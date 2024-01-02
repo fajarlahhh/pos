@@ -98,15 +98,14 @@
                             <td class="text-nowrap text-right align-middle">{{ number_format($row->tagihan, 2) }}</td>
                             <td class="text-nowrap align-middle">{{ $row->pengguna_id }}</td>
                             <td class="align-middle">
-                                <table class="table table-bordered m-b-0">
+                                <table class="table table-bordered">
                                     <thead>
-                                        <tr class="bg-grey-transparent-2">
-                                            <th class="width-10 p-3">No.</th>
-                                            <th class="p-3">Barang</th>
-                                            <th class="p-3">Satuan</th>
-                                            <th class="p-3">Harga</th>
-                                            <th class="p-3">Qty</th>
-                                            <th class="p-3">Diskon</th>
+                                        <tr>
+                                            <th class="width-10">No.</th>
+                                            <th>Barang</th>
+                                            <th>Harga</th>
+                                            <th>Qty</th>
+                                            <th>Diskon</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -114,11 +113,10 @@
                                             <tr>
                                                 <td class="p-3 text-center">{{ ++$index }}</td>
                                                 <td class="p-3 text-nowrap">{{ $detail->barang->nama }}</td>
-                                                <td class="p-3 text-nowrap">{{ $detail->satuan }}</td>
-                                                <td class="text-right p-3 text-nowrap">
+                                                <td class="text-right text-nowrap">
                                                     {{ number_format($detail->harga, 2) }}</td>
-                                                <td class="text-right p-3">{{ number_format($detail->qty) }}</td>
-                                                <td class="text-right p-3">{{ number_format($detail->diskon) }} %</td>
+                                                <td class="text-right">{{ number_format($detail->qty) }}</td>
+                                                <td class="text-right">{{ number_format($detail->diskon) }} %</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -130,18 +128,21 @@
                                 <div class="btn-group">
                                     @if ($row->trashed())
                                         @role('super-admin')
-                                            <a href="javascript:;" data-id="{{ $row->id }}"
-                                                data-no="{{ $i }}" class="btn-restore btn-sm btn btn-success">
+                                            <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}"
+                                                class="btn-restore btn-sm btn btn-success">
                                                 Restore</a>
                                         @endrole
                                     @else
                                         <a href="/penjualan/kwitansi/1/{{ $row->id }}" target="_blank"
-                                            class="btn-sm btn btn-aqua">Cetak</a>
-                                        @role('super-admin')
+                                            class="btn-sm btn btn-aqua">Nota</a>
+                                        <a href="#" class="btn btn-white btn-sm dropdown-toggle width-30 no-caret"
+                                            data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
                                             <a href="javascript:;" data-id="{{ $row->id }}"
-                                                data-no="{{ $i }}" class="btn-hapus btn-sm btn btn-danger">
-                                                Hapus</a>
-                                        @endrole
+                                                data-no="{{ $i }}" class="btn-hapus dropdown-item"> Hapus</a>
+                                        </div>
                                     @endif
                                 </div>
                             </td>

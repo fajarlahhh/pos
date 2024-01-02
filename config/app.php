@@ -232,4 +232,5 @@ return [
 
     'company' => env('APP_COMPANY', null),
     'address' => env('APP_ADDRESS', null),
+    'contact' => env('APP_CONTACT', null),
 ];
