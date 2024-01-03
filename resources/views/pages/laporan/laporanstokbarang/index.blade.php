@@ -83,11 +83,13 @@
                     <td>{{ ++$index }}</td>
                     <td>{{ $row->nama }}</td>
                     <td>{{ $row->jenis_barang ? $row->jenis_barang->nama : '' }}</td>
-                    <td>{{ $row->satuan_utama ? $row->satuan_utama->nama : '' }}</td>
+                    <td>{{ $row->satuan }}</td>
                     <td>{{ number_format($row->stok_awal->count() > 0 ? $row->stok_awal->sum('qty') : 0) }}</td>
-                    <td>{{ number_format($row->barang_masuk->count() > 0 ? $row->barang_masuk->sum('masuk') : 0) }}</td>
-                    <td>{{ number_format($row->penjualan->count() > 0 ? $row->penjualan->sum('keluar') : 0) }}</td>
-                    <td>{{ number_format(($row->stok_awal->count() > 0 ? $row->stok_awal->sum('qty') : 0) + ($row->barang_masuk->count() > 0 ? $row->barang_masuk->sum('masuk') : 0) - ($row->penjualan->count() > 0 ? $row->penjualan->sum('keluar') : 0)) }}
+                    <td>{{ number_format($row->barang_masuk_detail->count() > 0 ? $row->barang_masuk_detail->sum('masuk') : 0) }}
+                    </td>
+                    <td>{{ number_format($row->penjualan_detail->count() > 0 ? $row->penjualan_detail->sum('keluar') : 0) }}
+                    </td>
+                    <td>{{ number_format(($row->stok_awal->count() > 0 ? $row->stok_awal->sum('qty') : 0) + ($row->barang_masuk_detail->count() > 0 ? $row->barang_masuk_detail->sum('masuk') : 0) - ($row->penjualan_detail->count() > 0 ? $row->penjualan_detail->sum('keluar') : 0)) }}
                     </td>
                 </tr>
             @endforeach

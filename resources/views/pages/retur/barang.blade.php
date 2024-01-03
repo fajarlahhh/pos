@@ -5,8 +5,7 @@
             data-live-search="true" data-style="btn-aqua" data-size="3" data-width="100%">
             <option value="" selected>-- Pilih Barang --</option>
             @foreach ($data_barang as $row)
-                <option value="{{ $row->id }}"
-                    data-satuan="{{ $row->satuan_utama ? $row->satuan_utama->nama : '' }}"
+                <option value="{{ $row->id }}" data-satuan="{{ $row->satuan }}"
                     {{ $data && $data['id'] == $row->id ? 'selected' : '' }}>{{ $row->nama }}</option>
             @endforeach
         </select>

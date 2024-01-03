@@ -71,8 +71,8 @@
                 <th>Tanggal</th>
                 <th>Barang</th>
                 <th>Satuan</th>
+                <th>Harga Satuan</th>
                 <th>Qty</th>
-                <th>Harga</th>
                 <th>Sub Total</th>
                 <th>Keterangan</th>
             </tr>
@@ -84,14 +84,20 @@
                     <td class="align-middle">{{ $row->tanggal }}</td>
                     <td class="text-nowrap align-middle">{{ $row->barang->nama }}</td>
                     <td class="text-nowrap align-middle">{{ $row->satuan }}</td>
-                    <td class="text-nowrap align-middle">{{ $row->qty }}</td>
                     <td class="text-nowrap align-middle text-right">{{ number_format($row->harga, 2) }}
+                    <td class="text-nowrap align-middle">{{ $row->qty }}</td>
                     </td>
                     <td class="text-nowrap align-middle text-right">{{ number_format($row->harga * $row->qty, 2) }}
                     </td>
                     <td class="align-middle">{{ $row->keterangan }}</td>
                 </tr>
             @endforeach
+            <tr>
+                <th colspan="6">TOTAL</th>
+                <th class="text-nowrap text-right align-middle">
+                    {{ number_format($data->sum(fn($q) => $q->harga * $q->qty), 2) }}</th>
+                    <th></th>
+            </tr>
         </tbody>
     </table>
     @if ($cetak != 'cetak')

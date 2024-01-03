@@ -70,11 +70,12 @@
                             <tfoot>
                                 <tr>
                                     <th colspan="4" class="text-right">Sub Total : </th>
-                                    <td colspan="2" class="with-btn">
+                                    <td colspan="1" class="with-btn">
                                         <input type="text" class="form-control text-right currency" id="sub-total-harga"
                                             name="sub_total" value="{{ old('sub_total', 0) }}" autocomplete="off"
                                             readonly />
                                     </td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td colspan="6" class="text-center">

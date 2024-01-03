@@ -65,7 +65,7 @@
                 <thead>
                     <tr>
                         <th class="width-70">No.</th>
-                        <th>Barang</th>
+                        <th>Waktu</th>
                         <th>No. Faktur</th>
                         <th>Supplier</th>
                         <th>Jatuh Tempo</th>

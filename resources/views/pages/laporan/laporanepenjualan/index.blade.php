@@ -36,9 +36,9 @@
                                         data-style="btn-primary" data-width="100%">
                                         <option value="0" {{ $pembayaran == '0' ? 'selected' : '' }}>Semua Pembayaran
                                         </option>
-                                        <option value="1" {{ $pembayaran == '1' ? 'selected' : '' }}>Jatuh Tempo
+                                        <option value="1" {{ $pembayaran == '1' ? 'selected' : '' }}>Lunas</option>
+                                        <option value="2" {{ $pembayaran == '2' ? 'selected' : '' }}>Jatuh Tempo
                                         </option>
-                                        <option value="2" {{ $pembayaran == '2' ? 'selected' : '' }}>Lunas</option>
                                     </select>
                                 </div>&nbsp;
                                 <div class="form-group">
@@ -94,10 +94,11 @@
             <tr>
                 <th class="width-70">No.</th>
                 <th>Tanggal</th>
-                <th>Pelanggan</th>
-                <th>Total Harga Barang</th>
-                <th>Pembayaran</th>
                 <th>Barang</th>
+                <th>Satuan</th>
+                <th class="text-right">Harga Satuan</th>
+                <th class="text-right">Qty</th>
+                <th class="text-right">Harga Total</th>
             </tr>
         </thead>
         <tbody>
@@ -105,38 +106,16 @@
                 <tr>
                     <td class="text-nowrap align-middle">{{ ++$index }}</td>
                     <td class="text-nowrap align-middle">{{ $row->tanggal }}</td>
-                    <td class="text-nowrap align-middle">{{ $row->pelanggan ? $row->pelanggan->nama : '' }}</td>
-                    <td class="text-nowrap text-right align-middle">{{ number_format($row->tagihan, 2) }}</td>
-                    <td class="align-middle">{{ $row->lunas ? 'LUNAS' : 'Jatuh Tempo ' . $row->jatuh_tempo }}</td>
-                    <td class="align-middle">
-                        <table class="table table-bordered m-b-0">
-                            <thead>
-                                <tr class="bg-grey-transparent-2">
-                                    <th class="p-3">Barang</th>
-                                    <th class="p-3">Satuan</th>
-                                    <th class="p-3">Harga</th>
-                                    <th class="p-3">Qty</th>
-                                    <th class="p-3">Diskon</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($row->detail as $index => $detail)
-                                    <tr>
-                                        <td class="p-3 text-nowrap">{{ $detail->barang->nama }}</td>
-                                        <td class="p-3 text-nowrap">{{ $detail->nama }}</td>
-                                        <td class="text-right p-3 text-nowrap">{{ number_format($detail->harga, 2) }}</td>
-                                        <td class="text-right p-3">{{ number_format($detail->qty) }}</td>
-                                        <td class="text-right p-3">{{ number_format($detail->diskon) }} %</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </td>
+                    <td class="text-nowrap align-middle">{{ $row->barang->nama }}</td>
+                    <td class="text-nowrap align-middle">{{ $row->satuan }}</td>
+                    <td class="text-nowrap align-middle text-right">{{ number_format($row->harga, 2) }}</td>
+                    <td class="text-nowrap align-middle text-right">{{ $row->qty }}</td>
+                    <td class="text-nowrap align-middle text-right">{{ number_format($row->total, 2) }}</td>
                 </tr>
             @endforeach
             <tr>
-                <th colspan="3">TOTAL</th>
-                <th class="text-nowrap text-right align-middle">{{ number_format($data->sum('tagihan'), 2) }}</th>
+                <th colspan="6">TOTAL</th>
+                <th class="text-nowrap text-right align-middle">{{ number_format($data->sum('total'), 2) }}</th>
             </tr>
         </tbody>
     </table>
