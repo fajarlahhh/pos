@@ -24,7 +24,11 @@ class PenjualanController extends Controller
         $tgl2 = $req->get('tanggal') ? date('Y-m-d', strtotime($tanggal[1])) : date('Y-m-d');
 
         $data = Penjualan::with('pengguna')->with('detail')->whereBetween('tanggal', [$tgl1, $tgl2])->where(function ($q) use ($req) {
-            $q->orWhere('keterangan', 'like', '%' . $req->cari . '%')->orWhere('id', 'like', '%' . $req->cari . '%')->orWhere('pengguna_id', 'like', '%' . $req->cari . '%');
+            $q->orWhere('keterangan', 'like', '%' . $req->cari . '%')->orWhere('id', 'like', '%' . $req->cari . '%')->orWhere('pengguna_id', 'like', '%' . $req->cari . '%')->orWhereHas('detail', function ($r) use ($req) {
+                $r->whereHas('barang', function ($s) use ($req) {
+                    return $s->where('nama', 'like', '%' . $req->cari . '%');
+                });
+            });
         })->orderBy('created_at', 'asc');
 
         switch ($tipe) {
@@ -98,8 +102,14 @@ class PenjualanController extends Controller
             return redirect()->back()->withInput();
         }
 
-        $id = Carbon::now()->format('Ymdhmsu');
-        DB::transaction(function () use ($req, $id) {
+        DB::transaction(function () use ($req) {
+            $id = "CFF" . date('ym') . "00001";
+            $penjualan = Penjualan::where('created_at', 'like', date('Y-m-d') . '%')->orderBy('created_at', 'desc')->first();
+            if ($penjualan) {
+                $penjualan = sprintf('%04s', (int) (substr($penjualan->id, 9)) + 1);
+                $id = "CFF" . date('ym') . $penjualan;
+            }
+
             $data = new Penjualan();
             $data->id = $id;
             $data->tanggal = Carbon::now()->format('Y-m-d');
@@ -126,10 +136,16 @@ class PenjualanController extends Controller
                 $detail->total = str_replace(',', '', $brg['total']);
                 $detail->save();
             }
+
+            $cetak = view('pages.penjualan.kwitansi', [
+                'data' => Penjualan::find($id),
+            ])->render();
+
+            session()->flash('cetak', $cetak);
         });
 
         toast('Berhasil menyimpan data', 'success')->autoClose(2000);
-        return redirect('penjualan')->with(['kwitansi' => '/penjualan/kwitansi/0/' . $id]);
+        return redirect('penjualan');
     }
 
     public function nota($cetak, $id)

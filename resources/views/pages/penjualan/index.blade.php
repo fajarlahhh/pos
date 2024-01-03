@@ -77,10 +77,11 @@
                         <th>ID</th>
                         <th>Tanggal</th>
                         <th>Total Harga Barang</th>
+                        <th>Diskon</th>
                         <th>Kasir</th>
                         <th>Barang</th>
-                        <th>Keterangan</th>
                         <th>Pembayaran</th>
+                        <th>Keterangan</th>
                         @role('super-admin|supervisor|user')
                             <th class="width-90"></th>
                         @endrole
@@ -90,12 +91,14 @@
                     @foreach ($data as $index => $row)
                         <tr>
                             <td class="align-middle">{{ ++$i }}</td>
-                            <td class="text-nowrap align-middle">{{ $row->penjualan_id }}</td>
+                            <td class="text-nowrap align-middle">{{ substr($row->id, 0, 4) }} ... {{ substr($row->id, -4) }}
+                            </td>
                             <td class="align-middle">
                                 <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true"
                                     data-placement="top" title="{!! $row->pengguna->nama . ', <br><small>' . $row->updated_at . '</small>' !!}">{{ $row->tanggal }}</span>
                             </td>
                             <td class="text-nowrap text-right align-middle">{{ number_format($row->tagihan, 2) }}</td>
+                            <td class="text-nowrap text-right align-middle">{{ number_format($row->diskon, 2) }}</td>
                             <td class="text-nowrap align-middle">{{ $row->pengguna_id }}</td>
                             <td class="align-middle">
                                 <table class="table table-bordered">
@@ -105,25 +108,23 @@
                                             <th>Barang</th>
                                             <th>Harga</th>
                                             <th>Qty</th>
-                                            <th>Diskon</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($row->detail as $index => $detail)
                                             <tr>
-                                                <td class="p-3 text-center">{{ ++$index }}</td>
-                                                <td class="p-3 text-nowrap">{{ $detail->barang->nama }}</td>
+                                                <td class="text-center">{{ ++$index }}</td>
+                                                <td class="text-nowrap">{{ $detail->barang->nama }}</td>
                                                 <td class="text-right text-nowrap">
                                                     {{ number_format($detail->harga, 2) }}</td>
                                                 <td class="text-right">{{ number_format($detail->qty) }}</td>
-                                                <td class="text-right">{{ number_format($detail->diskon) }} %</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </td>
-                            <td class="align-middle">{{ $row->keterangan }}</td>
                             <td class="align-middle">{{ $row->lunas ? 'LUNAS' : 'Jatuh Tempo ' . $row->jatuh_tempo }}</td>
+                            <td class="align-middle">{{ $row->keterangan }}</td>
                             <td class="with-btn-group align-middle" nowrap>
                                 <div class="btn-group">
                                     @if ($row->trashed())

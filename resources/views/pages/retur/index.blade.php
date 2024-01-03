@@ -66,7 +66,6 @@
                         <th class="width-70">No.</th>
                         <th>Tanggal</th>
                         <th>Barang</th>
-                        <th>Satuan</th>
                         <th>Qty</th>
                         <th>Harga</th>
                         <th>Sub Total</th>
@@ -85,7 +84,6 @@
                                     data-placement="top" title="{!! $row->pengguna->nama . ', <br><small>' . $row->updated_at . '</small>' !!}">{{ $row->updated_at }}</span>
                             </td>
                             <td class="text-nowrap align-middle">{{ $row->barang->nama }}</td>
-                            <td class="text-nowrap align-middle">{{ $row->satuan }}</td>
                             <td class="text-nowrap align-middle">{{ $row->qty }}</td>
                             <td class="text-nowrap align-middle text-right">{{ number_format($row->harga, 2) }}
                             </td>
@@ -96,13 +94,13 @@
                                 <td class="with-btn-group align-middle" nowrap>
                                     @if ($row->trashed())
                                         @role('super-admin|supervisor')
-                                            <a href="javascript:;" data-id="{{ $row->id }}"
-                                                data-no="{{ $i }}" class="btn-restore btn-sm btn btn-success">
+                                            <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}"
+                                                class="btn-restore btn-sm btn btn-success">
                                                 Restore</a>
                                         @endrole
                                     @else
-                                        <a href="javascript:;" data-id="{{ $row->id }}"
-                                            data-no="{{ $i }}" class="btn-hapus btn-sm btn btn-danger"> Hapus</a>
+                                        <a href="javascript:;" data-id="{{ $row->id }}" data-no="{{ $i }}"
+                                            class="btn-hapus btn-sm btn btn-danger"> Hapus</a>
                                     @endif
                                 </td>
                             @endrole

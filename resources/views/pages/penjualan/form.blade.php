@@ -145,17 +145,7 @@
         </form>
     </div>
     @include('includes.component.error')
-    <div class="modal fade" id="modal-kwitansi">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Nota</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div id="modal-detail"></div>
-            </div>
-        </div>
-    </div>
+    @include('modal.cetak')
 
 @endsection
 
@@ -164,10 +154,9 @@
     <script src="/assets/plugins/parsleyjs/dist/parsley.js"></script>
     <script src="/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
     <script src="/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    @if (Session::has('kwitansi'))
+    @if (Session::has('cetak'))
         <script>
-            $("#modal-detail").load("{{ Session::get('kwitansi') }}");
-            $('#modal-kwitansi').modal('show');
+            $('#modal-cetak').modal('show');
         </script>
     @endif
     <script>

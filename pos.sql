@@ -11,7 +11,7 @@
  Target Server Version : 80200
  File Encoding         : 65001
 
- Date: 02/01/2024 19:56:25
+ Date: 03/01/2024 08:56:26
 */
 
 SET NAMES utf8mb4;
@@ -23,15 +23,15 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `barang`;
 CREATE TABLE `barang` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nama` varchar(255) NOT NULL,
   `stok_min` double NOT NULL DEFAULT '0',
-  `keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `keterangan` text,
   `stok` tinyint NOT NULL DEFAULT '1',
   `jenis_barang_id` bigint DEFAULT NULL,
   `supplier_id` bigint DEFAULT NULL,
-  `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `satuan` varchar(255) DEFAULT NULL,
   `harga` decimal(15,2) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `barang` (
   CONSTRAINT `barang_jenis_barang_id_foreign` FOREIGN KEY (`jenis_barang_id`) REFERENCES `jenis_barang` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `barang_obat_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `barang_pbf_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=270 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=270  ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of barang
@@ -99,9 +99,9 @@ COMMIT;
 DROP TABLE IF EXISTS `barang_masuk`;
 CREATE TABLE `barang_masuk` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `tanggal` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `faktur` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `tanggal` varchar(255) DEFAULT NULL,
+  `faktur` varchar(255) DEFAULT NULL,
+  `keterangan` text,
   `jatuh_tempo` date DEFAULT NULL,
   `lunas` date DEFAULT NULL,
   `supplier_id` bigint DEFAULT NULL,
@@ -109,8 +109,10 @@ CREATE TABLE `barang_masuk` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `pengguna_id` (`pengguna_id`),
+  CONSTRAINT `barang_masuk_ibfk_1` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=36 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of barang_masuk
@@ -154,7 +156,7 @@ CREATE TABLE `barang_masuk_detail` (
   KEY `barang_masuk_detail` (`barang_masuk_id`) USING BTREE,
   CONSTRAINT `barang_masuk_barang_id_foreign` FOREIGN KEY (`barang_id`) REFERENCES `barang` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `barang_masuk_detail` FOREIGN KEY (`barang_masuk_id`) REFERENCES `barang_masuk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=26 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of barang_masuk_detail
@@ -193,15 +195,15 @@ COMMIT;
 DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of failed_jobs
@@ -215,7 +217,7 @@ COMMIT;
 DROP TABLE IF EXISTS `jenis_barang`;
 CREATE TABLE `jenis_barang` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -223,7 +225,7 @@ CREATE TABLE `jenis_barang` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `jenis_barang_pengguna_id_foreign` (`pengguna_id`) USING BTREE,
   CONSTRAINT `jenis_barang_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=140 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of jenis_barang
@@ -239,10 +241,10 @@ COMMIT;
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of migrations
@@ -260,14 +262,14 @@ COMMIT;
 DROP TABLE IF EXISTS `model_has_permissions`;
 CREATE TABLE `model_has_permissions` (
   `permission_id` int unsigned NOT NULL,
-  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `pengguna_id` varchar(255) NOT NULL,
   PRIMARY KEY (`permission_id`,`model_type`,`pengguna_id`) USING BTREE,
   KEY `model_has_permissions_model_id_model_type_index` (`model_type`) USING BTREE,
   KEY `izin_pengguna_fk` (`pengguna_id`) USING BTREE,
   CONSTRAINT `model_has_permissions_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   CONSTRAINT `model_has_permissions_ibfk_2` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of model_has_permissions
@@ -289,14 +291,14 @@ COMMIT;
 DROP TABLE IF EXISTS `model_has_roles`;
 CREATE TABLE `model_has_roles` (
   `role_id` int unsigned NOT NULL,
-  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `pengguna_id` varchar(255) NOT NULL,
   PRIMARY KEY (`role_id`,`model_type`,`pengguna_id`) USING BTREE,
   KEY `model_has_roles_model_id_model_type_index` (`model_type`) USING BTREE,
   KEY `level_pengguna_fk` (`pengguna_id`) USING BTREE,
   CONSTRAINT `model_has_roles_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `model_has_roles_ibfk_2` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of model_has_roles
@@ -311,11 +313,11 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   KEY `password_resets_email_index` (`email`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of password_resets
@@ -329,9 +331,9 @@ COMMIT;
 DROP TABLE IF EXISTS `pelanggan`;
 CREATE TABLE `pelanggan` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `alamat` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  `kontak` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `alamat` text,
+  `kontak` varchar(255) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -339,7 +341,7 @@ CREATE TABLE `pelanggan` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `supplier_pengguna_id_foreign` (`pengguna_id`) USING BTREE,
   CONSTRAINT `pelanggan_ibfk_1` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=68 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of pelanggan
@@ -358,15 +360,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `pengguna`;
 CREATE TABLE `pengguna` (
-  `id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `sandi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `id` varchar(255) NOT NULL,
+  `sandi` varchar(255) NOT NULL,
+  `nama` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of pengguna
@@ -381,9 +383,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `penjualan`;
 CREATE TABLE `penjualan` (
-  `id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
+  `id` varchar(255) NOT NULL DEFAULT '',
   `tanggal` date DEFAULT NULL,
-  `keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `keterangan` text,
   `sub_total` decimal(15,2) DEFAULT NULL,
   `tagihan` decimal(15,2) DEFAULT NULL,
   `bayar` decimal(15,2) DEFAULT NULL,
@@ -399,7 +401,7 @@ CREATE TABLE `penjualan` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `pelanggan_id` (`pelanggan_id`) USING BTREE,
   CONSTRAINT `penjualan_ibfk_1` FOREIGN KEY (`pelanggan_id`) REFERENCES `pelanggan` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of penjualan
@@ -416,6 +418,11 @@ INSERT INTO `penjualan` VALUES ('20240102070120851451', '2024-01-02', NULL, 2000
 INSERT INTO `penjualan` VALUES ('20240102070128622898', '2024-01-02', NULL, 20000.00, 20000.00, 20000.00, 0.00, 0.00, NULL, '2024-01-02', NULL, 'administrator', '2024-01-02 19:34:28', '2024-01-02 19:34:28', NULL);
 INSERT INTO `penjualan` VALUES ('20240102070134971983', '2024-01-02', 'asdf', 20000.00, 20000.00, 20000.00, 0.00, 0.00, NULL, '2024-01-02', NULL, 'administrator', '2024-01-02 19:28:34', '2024-01-02 19:28:34', NULL);
 INSERT INTO `penjualan` VALUES ('20240102070146827860', '2024-01-02', NULL, 20000.00, 20000.00, 20000.00, 0.00, 0.00, NULL, '2024-01-02', NULL, 'administrator', '2024-01-02 19:35:46', '2024-01-02 19:35:46', NULL);
+INSERT INTO `penjualan` VALUES ('20240102080100733659', '2024-01-02', 'asdf', 144000.00, 134000.00, 135000.00, 1000.00, 10000.00, NULL, '2024-01-02', NULL, 'administrator', '2024-01-02 20:42:00', '2024-01-02 20:42:00', NULL);
+INSERT INTO `penjualan` VALUES ('20240103080104683132', '2024-01-03', 'asdfasdf', 252000.00, 252000.00, 300000.00, 48000.00, 0.00, NULL, '2024-01-03', NULL, 'administrator', '2024-01-03 08:31:04', '2024-01-03 08:31:04', NULL);
+INSERT INTO `penjualan` VALUES ('20240103080113900822', '2024-01-03', NULL, 24000.00, 24000.00, 24000.00, 0.00, 0.00, NULL, '2024-01-03', NULL, 'administrator', '2024-01-03 08:30:13', '2024-01-03 08:30:13', NULL);
+INSERT INTO `penjualan` VALUES ('20240103080117364946', '2024-01-03', 'Keterangan', 220000.00, 220000.00, 230000.00, 10000.00, 0.00, NULL, '2024-01-03', NULL, 'administrator', '2024-01-03 08:04:17', '2024-01-03 08:04:17', NULL);
+INSERT INTO `penjualan` VALUES ('20240103080158394373', '2024-01-03', 'asdasdf', 20000.00, 20000.00, 20000.00, 0.00, 0.00, NULL, '2024-01-03', NULL, 'administrator', '2024-01-03 08:49:58', '2024-01-03 08:49:58', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -426,31 +433,35 @@ CREATE TABLE `penjualan_detail` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `penjualan_id` varchar(255) NOT NULL,
   `barang_id` bigint NOT NULL,
-  `satuan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `satuan` varchar(255) NOT NULL,
   `harga` decimal(15,2) NOT NULL,
   `qty` double NOT NULL,
-  `diskon` double DEFAULT NULL,
   `total` decimal(15,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `penjualan_detail_penjualan_id_foreign` (`penjualan_id`) USING BTREE,
   CONSTRAINT `penjualan_detail_penjualan_id_foreign` FOREIGN KEY (`penjualan_id`) REFERENCES `penjualan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=18 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of penjualan_detail
 -- ----------------------------
 BEGIN;
-INSERT INTO `penjualan_detail` VALUES (1, '20201229061221231490', 222, 'dus', 1080000.00, 5, 2, 5292000.00);
-INSERT INTO `penjualan_detail` VALUES (2, '20201229061200882922', 222, 'pcs', 95000.00, 10, 0, 950000.00);
-INSERT INTO `penjualan_detail` VALUES (3, '20210104100124390773', 230, 'dus max', 88000.00, 60, 0, 5280000.00);
-INSERT INTO `penjualan_detail` VALUES (4, '20240102060128036488', 246, 'pcs', 30000.00, 20, NULL, 600000.00);
-INSERT INTO `penjualan_detail` VALUES (5, '20240102060156075719', 268, 'asdf', 12000.00, 2, NULL, 24000.00);
-INSERT INTO `penjualan_detail` VALUES (6, '20240102060120252527', 268, 'asdf', 12000.00, 2, NULL, 24000.00);
-INSERT INTO `penjualan_detail` VALUES (7, '20240102060154417426', 264, 'pcs', 10000.00, 1, NULL, 10000.00);
-INSERT INTO `penjualan_detail` VALUES (8, '20240102070134971983', 264, 'pcs', 10000.00, 2, NULL, 20000.00);
-INSERT INTO `penjualan_detail` VALUES (9, '20240102070120851451', 264, 'pcs', 10000.00, 2, NULL, 20000.00);
-INSERT INTO `penjualan_detail` VALUES (10, '20240102070128622898', 264, 'pcs', 10000.00, 2, NULL, 20000.00);
-INSERT INTO `penjualan_detail` VALUES (11, '20240102070146827860', 264, 'pcs', 10000.00, 2, NULL, 20000.00);
+INSERT INTO `penjualan_detail` VALUES (1, '20201229061221231490', 222, 'dus', 1080000.00, 5, 5292000.00);
+INSERT INTO `penjualan_detail` VALUES (2, '20201229061200882922', 222, 'pcs', 95000.00, 10, 950000.00);
+INSERT INTO `penjualan_detail` VALUES (3, '20210104100124390773', 230, 'dus max', 88000.00, 60, 5280000.00);
+INSERT INTO `penjualan_detail` VALUES (4, '20240102060128036488', 246, 'pcs', 30000.00, 20, 600000.00);
+INSERT INTO `penjualan_detail` VALUES (5, '20240102060156075719', 268, 'asdf', 12000.00, 2, 24000.00);
+INSERT INTO `penjualan_detail` VALUES (6, '20240102060120252527', 268, 'asdf', 12000.00, 2, 24000.00);
+INSERT INTO `penjualan_detail` VALUES (7, '20240102060154417426', 264, 'pcs', 10000.00, 1, 10000.00);
+INSERT INTO `penjualan_detail` VALUES (8, '20240102070134971983', 264, 'pcs', 10000.00, 2, 20000.00);
+INSERT INTO `penjualan_detail` VALUES (9, '20240102070120851451', 264, 'pcs', 10000.00, 2, 20000.00);
+INSERT INTO `penjualan_detail` VALUES (10, '20240102070128622898', 264, 'pcs', 10000.00, 2, 20000.00);
+INSERT INTO `penjualan_detail` VALUES (11, '20240102070146827860', 264, 'pcs', 10000.00, 2, 20000.00);
+INSERT INTO `penjualan_detail` VALUES (12, '20240102080100733659', 268, 'asdf', 12000.00, 12, 144000.00);
+INSERT INTO `penjualan_detail` VALUES (13, '20240103080117364946', 244, 'pcs', 10000.00, 22, 220000.00);
+INSERT INTO `penjualan_detail` VALUES (15, '20240103080113900822', 268, 'asdf', 12000.00, 2, 24000.00);
+INSERT INTO `penjualan_detail` VALUES (16, '20240103080104683132', 268, 'asdf', 12000.00, 21, 252000.00);
+INSERT INTO `penjualan_detail` VALUES (17, '20240103080158394373', 264, 'pcs', 10000.00, 2, 20000.00);
 COMMIT;
 
 -- ----------------------------
@@ -459,13 +470,13 @@ COMMIT;
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE `permissions` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(191) NOT NULL,
+  `guard_name` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `permissions_name_unique` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=14 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of permissions
@@ -504,7 +515,7 @@ CREATE TABLE `retur` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15;
 
 -- ----------------------------
 -- Records of retur
@@ -530,7 +541,7 @@ CREATE TABLE `role_has_permissions` (
   KEY `role_has_permissions_role_id_foreign` (`role_id`) USING BTREE,
   CONSTRAINT `role_has_permissions_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   CONSTRAINT `role_has_permissions_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of role_has_permissions
@@ -544,13 +555,13 @@ COMMIT;
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(191) NOT NULL,
+  `guard_name` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `roles_name_unique` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of roles
@@ -570,7 +581,7 @@ CREATE TABLE `stok_awal` (
   `barang_id` bigint NOT NULL,
   `qty` double(255,0) DEFAULT NULL,
   PRIMARY KEY (`tanggal`,`barang_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of stok_awal
@@ -584,9 +595,9 @@ COMMIT;
 DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE `supplier` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `alamat` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  `kontak` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `alamat` text,
+  `kontak` varchar(255) DEFAULT NULL,
   `pengguna_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -594,7 +605,7 @@ CREATE TABLE `supplier` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `supplier_pengguna_id_foreign` (`pengguna_id`) USING BTREE,
   CONSTRAINT `supplier_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=67 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of supplier
