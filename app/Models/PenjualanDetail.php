@@ -9,8 +9,6 @@ class PenjualanDetail extends Model
 {
     use HasFactory;
     protected $table = 'penjualan_detail';
-    protected $primaryKey = null;
-    public $incrementing = false;
     public $timestamps = false;
 
     public function barang()
@@ -25,6 +23,6 @@ class PenjualanDetail extends Model
 
     public function penjualan()
     {
-        return $this->belongsTo('App\Models\Penjualan', 'penjualan_id', 'penjualan_id');
+        return $this->belongsTo(Penjualan::class);
     }
 }

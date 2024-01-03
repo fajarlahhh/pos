@@ -21,7 +21,7 @@ class Barang extends Model
         return $this->belongsTo(JenisBarang::class);
     }
 
-    public function barang_masuk()
+    public function barang_masuk_detail()
     {
         return $this->hasMany(BarangMasukDetail::class);
     }
