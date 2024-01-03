@@ -1,50 +1,65 @@
-<div style="width: 300px" id="modal-body-cetak">
-    <div class="text-center">
-        <strong>{{ config('app.company') }}</strong> <br>
-            <small>{{ config('app.address') }}</small><br>
-            <small>Telp. {{ config('app.contact') }}</small>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-md-6 f-s-10">
-            ID : {{ $data->id }}
+<div style="width: 280px;" id="modal-body-cetak">
+    <style>
+        .consolas {
+            font-family: 'Consolas', monospace;
+        }
+
+        table #kwitansi {
+            vertical-align: top;
+        }
+    </style>
+
+    <div class="consolas">
+        <div style="text-align: center!important">
+            <strong style="font-size: 15px">{{ config('app.company') }}</strong> <br>
+            <small><small>{{ config('app.address') }}</small></small><br>
+            <small><small>Telp. {{ config('app.contact') }}</small></small>
         </div>
-        <div class="col-md-6 f-s-10">
-            <div class="float-right">Tgl. Nota : {{ $data->tanggal }}</div>
+        <br>
+        <br>
+        <div style="width: 50; float:left; font-size:10px">
+            {{ $data->id }}
         </div>
-    </div>
-    <div class="table-responsive">
-        <table class="table">
+        <div style="width: 50%; float:right; text-align: right; font-size:10px  ">
+            {{ $data->tanggal }}
+        </div>
+        <br>
+        <br>
+        <table id="kwitansi" style="border-collapse: collapse; width: 100%; font-size: 10px">
             <tr>
-                <th class="f-s-10">No.</th>
-                <th class="f-s-10">Barang</th>
-                <th class="f-s-10 text-right">Qty</th>
-                <th class="f-s-10 text-right">Harga</th>
+                <th style="text-align: left">No.</th>
+                <th style="text-align: left">Barang</th>
+                <th style="text-align: right">Qty</th>
+                <th style="text-align: right">Harga</th>
             </tr>
             @foreach ($data->detail as $index => $row)
                 <tr>
-                    <td class="f-s-10 width-10">
+                    <td style="width: 5px; text-align: left">
                         {{ $index + 1 }}
                     </td>
-                    <td class="f-s-10">
+                    <td style="text-align: left">
                         {{ $row->barang->nama }}
                     </td>
-                    <td class="text-right f-s-10 text-nowrap width-10">
+                    <td style="text-align: right; width:5px;">
                         {{ number_format($row->qty) }}
                     </td>
-                    <td class="text-right f-s-10 text-nowrap">
-                        {{ number_format($row->total, 2) }}
+                    <td style="text-align: right; width:70px; white-space: nowrap;">
+                        {{ number_format($row->total) }}
                     </td>
                 </tr>
             @endforeach
             <tr>
-                <th colspan="3" class="text-right f-s-10">Total :</th>
-                <td class="text-right f-s-10">
-                    {{ number_format($data->detail->sum('total'), 2) }}
+                <th style="text-align: left;" colspan="3">Total</th>
+                <td style="text-align: right; white-space: nowrap;">
+                    {{ number_format($data->detail->sum('total')) }}
                 </td>
             </tr>
         </table>
+        <br>
+        <br>
+        <br>
+        <div style="text-align: center!important">
+            <strong style="font-size: 18px">TERIMA KASIH</strong>
+        </div>
     </div>
-    
 </div>

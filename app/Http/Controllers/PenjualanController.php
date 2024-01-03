@@ -150,10 +150,12 @@ class PenjualanController extends Controller
 
     public function nota($cetak, $id)
     {
-        return view('pages.penjualan.kwitansi', [
-            'data' => Penjualan::with('detail.barang')->findOrFail($id),
-            'cetak' => $cetak
-        ]);
+        $cetak = view('pages.penjualan.kwitansi', [
+            'data' => Penjualan::find($id),
+        ])->render();
+
+        session()->flash('cetak', $cetak);
+        return redirect('penjualan/data');
     }
 
     public function hapus(Request $req)

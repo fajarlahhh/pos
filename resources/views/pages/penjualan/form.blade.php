@@ -145,7 +145,7 @@
         </form>
     </div>
     @include('includes.component.error')
-    @include('modal.cetak')
+    @include('modal.cetak', ['size' => 'modal-xs'])
 
 @endsection
 

@@ -223,53 +223,39 @@ class PenggunaController extends Controller
             return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
-            $pengguna = Pengguna::findOrFail(Auth::id());
-            if ($pengguna) {
-                if (!Hash::check($req->get('sandi_lama'), $pengguna->sandi)) {
-                    alert()->error('Ganti Sandi Gagal', 'Kata sandi lama salah');
-                    return redirect()->back();
-                }
-            } else {
-                alert()->error('Ganti Sandi Gagal', 'Data pengguna tidak tersedia');
+        $pengguna = Pengguna::findOrFail(Auth::id());
+        if ($pengguna) {
+            if (!Hash::check($req->get('sandi_lama'), $pengguna->sandi)) {
+                alert()->error('Ganti Sandi Gagal', 'Kata sandi lama salah');
                 return redirect()->back();
             }
-            $pengguna->sandi = Hash::make($req->get('sandi_baru'));
-            $pengguna->save();
-            toast('Berhasil mengganti kata sandi', 'success')->autoClose(2000);
+        } else {
+            alert()->error('Ganti Sandi Gagal', 'Data pengguna tidak tersedia');
             return redirect()->back();
-        } catch (\Exception $e) {
-            alert()->error('Ganti Sandi Gagal', $e->getMessage());
-            return redirect(url()->previous());
         }
+        $pengguna->sandi = Hash::make($req->get('sandi_baru'));
+        $pengguna->save();
+        toast('Berhasil mengganti kata sandi', 'success')->autoClose(2000);
+        return redirect()->back();
     }
 
     public function ganti_status(Request $req)
     {
-            $pengguna = Pengguna::findOrFail($req->get('id'));
-            $pengguna->pengguna_status = $req->get('status');
-            $pengguna->save();
-            return $req->get('status');
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        $pengguna = Pengguna::findOrFail($req->get('id'));
+        $pengguna->pengguna_status = $req->get('status');
+        $pengguna->save();
     }
 
     public function hapus(Request $req)
     {
-            $pengguna = Pengguna::findOrFail($req->get('id'));
-            $pengguna->delete();
-            toast('Berhasil menghapus data', 'success')->autoClose(2000);
-        } catch (\Exception $e) {
-            alert()->error('Hapus Data', $e->getMessage());
-        }
+        $pengguna = Pengguna::findOrFail($req->get('id'));
+        $pengguna->delete();
+        toast('Berhasil menghapus data', 'success')->autoClose(2000);
     }
 
     public function restore(Request $req)
     {
-            Pengguna::withTrashed()->findOrFail($req->get('id'))->restore();
-            toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
-        } catch (\Exception $e) {
-            alert()->error('Restore Data', $e->getMessage());
-        }
+        Pengguna::withTrashed()->findOrFail($req->get('id'))->restore();
+        toast('Berhasil mengembalikan data', 'success')->autoClose(2000);
     }
 }

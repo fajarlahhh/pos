@@ -91,7 +91,8 @@
                     @foreach ($data as $index => $row)
                         <tr>
                             <td class="align-middle">{{ ++$i }}</td>
-                            <td class="text-nowrap align-middle">{{ substr($row->id, 0, 4) }} ... {{ substr($row->id, -4) }}
+                            <td class="text-nowrap align-middle">{{ substr($row->id, 0, 4) }} ...
+                                {{ substr($row->id, -4) }}
                             </td>
                             <td class="align-middle">
                                 <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true"
@@ -134,7 +135,7 @@
                                                 Restore</a>
                                         @endrole
                                     @else
-                                        <a href="/penjualan/kwitansi/1/{{ $row->id }}" target="_blank"
+                                        <a href="/penjualan/kwitansi/1/{{ $row->id }}"
                                             class="btn-sm btn btn-aqua">Nota</a>
                                         <a href="#" class="btn btn-white btn-sm dropdown-toggle width-30 no-caret"
                                             data-toggle="dropdown">
@@ -156,9 +157,15 @@
             'pagination' => $data,
         ])
     </div>
+    @include('modal.cetak', ['size' => 'modal-xs'])
 @endsection
 
 @push('scripts')
+    @if (Session::has('cetak'))
+        <script>
+            $('#modal-cetak').modal('show');
+        </script>
+    @endif
     <script src="/assets/plugins/bootstrap-daterangepicker/moment.min.js"></script>
     <script src="/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
