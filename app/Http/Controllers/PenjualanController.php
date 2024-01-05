@@ -103,8 +103,8 @@ class PenjualanController extends Controller
         }
 
         DB::transaction(function () use ($req) {
-            $id = "CFF" . date('ym') . "00001";
-            $penjualan = Penjualan::where('created_at', 'like', date('Y-m-d') . '%')->orderBy('created_at', 'desc')->first();
+            $id = "CFF" . date('ym') . "0001";
+            $penjualan = Penjualan::where('tanggal', 'like', date('Y-m') . '%')->orderBy('id', 'desc')->first();
             if ($penjualan) {
                 $penjualan = sprintf('%04s', (int) (substr($penjualan->id, 9)) + 1);
                 $id = "CFF" . date('ym') . $penjualan;

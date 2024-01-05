@@ -48,7 +48,7 @@ class LaporanController extends Controller
             ->leftJoin('penjualan', 'penjualan.id', '=', 'penjualan_detail.penjualan_id')
             ->when($req->pembayaran == '1', fn ($q) => $q->whereNull('jatuh_tempo'))
             ->when($req->pembayaran == '2', fn ($q) => $q->whereNotNull('jatuh_tempo'))
-            ->whereRaw(DB::raw("year(tanggal)=$tahun"))->whereRaw(DB::raw("month(tanggal)=$bulan"))->with('barang')->groupBy(['barang_id', 'satuan', 'harga', 'qty', 'total', 'tanggal'])->get();
+            ->whereRaw(DB::raw("year(tanggal)=$tahun"))->whereRaw(DB::raw("month(tanggal)=$bulan"))->with('barang')->groupBy(['barang_id', 'satuan', 'harga', 'qty', 'total', 'tanggal'])->orderBy('tanggal')->get();
 
         return view('pages.laporan.laporanepenjualan.index', [
             'data' => $data,
