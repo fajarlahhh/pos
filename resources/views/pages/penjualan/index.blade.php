@@ -157,6 +157,9 @@
             'pagination' => $data,
         ])
     </div>
+    <div class="alert alert-inf">
+        Total Penjualan {{ $tgl }} : Rp. {{ $data->sum('tagihan') }}
+    </div>
     @include('modal.cetak', ['size' => 'modal-xs'])
 @endsection
 
